@@ -3,11 +3,11 @@ import './App.css';
 
 type TodolistPropsType = {
     todolistTitle: string,
-    lists: Array<ListType>,
+    list: Array<ListType>,
 }
 type ListType = {
     id: number,
-    title: string,
+    taskTitle: string,
     isDone: boolean,
 }
 
@@ -20,17 +20,13 @@ export const Todolist = (props: TodolistPropsType) => {
                 <button>+</button>
             </div>
             <ul>
-                {props.lists.map((list) => {
+                {props.list.map(list => {
                         return (
-                            <li><input type="checkbox" checked={list.isDone}/> <span>{list.title}</span></li>
+                            <li><input type="checkbox" checked={list.isDone}/> <span>{list.taskTitle}</span></li>
 
                         )
                     }
-                )
-                }
-                {/*<li><input type="checkbox" checked={props.list[0].isDone}/> <span>{props.list[0].title}</span></li>*/}
-                {/*<li><input type="checkbox" checked={props.list[1].isDone}/> <span>{props.list[1].title}</span></li>*/}
-                {/*<li><input type="checkbox" checked={props.list[2].isDone}/> <span>{props.list[2].title}</span></li>*/}
+                )}
             </ul>
             <div>
                 <button>All</button>
