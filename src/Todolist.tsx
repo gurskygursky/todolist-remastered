@@ -1,17 +1,20 @@
 import React from 'react';
 import './App.css';
+import {UniversalButton} from "./Button";
 
 type TodolistPropsType = {
     todolistTitle: string,
     tasks: Array<TaskType>,
+    removeTask: (id: number) => void,
 }
-type TaskType = {
+export type TaskType = {
     id: number,
     taskTitle: string,
     isDone: boolean,
 }
 
 export const Todolist = (props: TodolistPropsType) => {
+
     return (
         <div>
             <h3>{props.todolistTitle}</h3>
@@ -22,7 +25,11 @@ export const Todolist = (props: TodolistPropsType) => {
             <ul>
                 {props.tasks.map(task => {
                         return (
-                            <li><input type="checkbox" checked={task.isDone}/> <span>{task.taskTitle}</span></li>
+                            <li><input type="checkbox" checked={task.isDone}/>
+                                <span>{task.taskTitle}</span>
+                                <UniversalButton task={task} removeTask={() => props.removeTask(task.id)}/>
+                                {/*<button onClick={() => props.removeTask(task.id)}>x</button>*/}
+                            </li>
 
                         )
                     }
