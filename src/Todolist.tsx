@@ -3,9 +3,9 @@ import './App.css';
 
 type TodolistPropsType = {
     todolistTitle: string,
-    list: Array<ListType>,
+    tasks: Array<TaskType>,
 }
-type ListType = {
+type TaskType = {
     id: number,
     taskTitle: string,
     isDone: boolean,
@@ -20,9 +20,9 @@ export const Todolist = (props: TodolistPropsType) => {
                 <button>+</button>
             </div>
             <ul>
-                {props.list.map(list => {
+                {props.tasks.map(task => {
                         return (
-                            <li><input type="checkbox" checked={list.isDone}/> <span>{list.taskTitle}</span></li>
+                            <li><input type="checkbox" checked={task.isDone}/> <span>{task.taskTitle}</span></li>
 
                         )
                     }

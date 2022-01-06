@@ -21,8 +21,8 @@ export function App() {
     ]
     return (
         <div className="App">
-            <Todolist todolistTitle={'What to learn 111'} list={todolist1}/>
-            <Todolist todolistTitle={'What to learn 222'} list={todolist2}/>
+            <Todolist todolistTitle={'What to learn 111'} tasks={todolist1}/>
+            <Todolist todolistTitle={'What to learn 222'} tasks={todolist2}/>
         </div>
     );
 }
