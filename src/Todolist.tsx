@@ -6,7 +6,10 @@ type TodolistPropsType = {
     todolistTitle: string,
     tasks: Array<TaskType>,
     removeTask: (id: number) => void,
+    tasksStatusFilter: (taskStatus: TaskStatusType) => void,
 }
+export type TaskStatusType = 'all' | 'active' | 'completed';
+
 export type TaskType = {
     id: number,
     taskTitle: string,
@@ -27,7 +30,8 @@ export const Todolist = (props: TodolistPropsType) => {
                         return (
                             <li><input type="checkbox" checked={task.isDone}/>
                                 <span>{task.taskTitle}</span>
-                                <UniversalButton task={task} removeTask={() => props.removeTask(task.id)}/>
+                                <UniversalButton task={task}
+                                                 removeTask={() => props.removeTask(task.id)}/>
                                 {/*<button onClick={() => props.removeTask(task.id)}>x</button>*/}
                             </li>
 
@@ -36,9 +40,9 @@ export const Todolist = (props: TodolistPropsType) => {
                 )}
             </ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <button onClick={() => props.tasksStatusFilter('all')}>All</button>
+                <button onClick={() => props.tasksStatusFilter('active')}>Active</button>
+                <button onClick={() => props.tasksStatusFilter('completed')}>Completed</button>
             </div>
         </div>
     );
