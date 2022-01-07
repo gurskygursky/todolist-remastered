@@ -5,13 +5,13 @@ import {UniversalButton} from "./Button";
 type TodolistPropsType = {
     todolistTitle: string,
     tasks: Array<TaskType>,
-    removeTask: (id: number) => void,
+    removeTask: (id: string) => void,
     tasksStatusFilter: (taskStatus: TaskStatusType) => void,
 }
 export type TaskStatusType = 'all' | 'active' | 'completed';
 
 export type TaskType = {
-    id: number,
+    id: string,
     taskTitle: string,
     isDone: boolean,
 }
