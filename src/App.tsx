@@ -5,7 +5,7 @@ import {v1} from "uuid";
 
 export function App() {
 
-    let [tasks, setTask] = useState([
+    let [tasks, setTasks] = useState([
         {id: v1(), taskTitle: "HTML & CSS", isDone: true},
         {id: v1(), taskTitle: "Javascript", isDone: false},
         {id: v1(), taskTitle: "Typescript", isDone: true},
@@ -22,9 +22,15 @@ export function App() {
     //     {id: 6, taskTitle: "The Master and Margarita", isDone: false},
     // ]
 
+    const addTask = (newTaskTitle: string) => {
+        const task = {id: v1(), taskTitle: newTaskTitle, isDone: true};
+        const newTask = [task, ...tasks];
+        setTasks(newTask);
+    }
+
     const removeTask = (id: string) => {
         const FilteredTask = tasks.filter(task => task.id !== id)
-        setTask(FilteredTask);
+        setTasks(FilteredTask);
         console.log(tasks)
     }
     const tasksStatusFilter = (taskStatus: TaskStatusType) => {
@@ -47,7 +53,9 @@ export function App() {
             <Todolist todolistTitle={'What to learn'}
                       tasks={FilteredTasksStatus}
                       removeTask={removeTask}
-                      tasksStatusFilter={tasksStatusFilter}/>
+                      tasksStatusFilter={tasksStatusFilter}
+                      addTask={addTask}
+            />
             {/*<Todolist todolistTitle={'Reading list'} tasks={tasks} removeTask={removeTask}/>*/}
         </div>
     );
