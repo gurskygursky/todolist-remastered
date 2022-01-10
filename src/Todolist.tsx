@@ -6,6 +6,7 @@ type TodolistPropsType = {
     tasks: Array<TaskType>,
     removeTask: (id: string) => void,
     tasksStatusFilter: (taskStatus: TaskStatusType) => void,
+    taskStatusChecked: (taskID: string, isDone: boolean) => void,
     addTask: (newTaskTitle: string) => void,
 }
 export type TaskStatusType = 'all' | 'active' | 'completed';
@@ -52,8 +53,12 @@ export const Todolist = (props: TodolistPropsType) => {
                         const removeTask = () => {
                             props.removeTask(task.id)
                         }
+                        const changeTaskStatusChecked = (event: ChangeEvent<HTMLInputElement>) => {
+                            const newIsDoneValue = event.currentTarget.checked;
+                            props.taskStatusChecked(task.id, newIsDoneValue);
+                        }
                         return (
-                            <li><input type="checkbox" checked={task.isDone}/>
+                            <li><input type="checkbox" checked={task.isDone} onChange={changeTaskStatusChecked}/>
                                 <span>{task.taskTitle}</span>
                                 <button onClick={removeTask}>x</button>
                             </li>

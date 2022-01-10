@@ -39,7 +39,14 @@ export function App() {
     const tasksStatusFilter = (taskStatus: TaskStatusType) => {
         setTaskStatus(taskStatus)
     }
+    const taskStatusChecked = (taskID: string, isDone: boolean) => {
+        let task = tasks.find(task => task.id === taskID);
+        if (task) {
+            task.isDone = isDone;
+            setTasks([...tasks])
+        }
 
+    }
     let FilteredTasksStatus = tasks;
 
     if (taskStatus === 'active') {
@@ -56,6 +63,7 @@ export function App() {
                       removeTask={removeTask}
                       tasksStatusFilter={tasksStatusFilter}
                       addTask={addTask}
+                      taskStatusChecked={taskStatusChecked}
             />
             {/*<Todolist todolistTitle={'Reading list'} tasks={tasks} removeTask={removeTask}/>*/}
         </div>
