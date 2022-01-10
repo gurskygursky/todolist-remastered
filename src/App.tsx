@@ -61,6 +61,7 @@ export function App() {
             <Todolist todolistTitle={'What to learn'}
                       tasks={FilteredTasksStatus}
                       removeTask={removeTask}
+                      taskStatus={taskStatus}
                       tasksStatusFilter={tasksStatusFilter}
                       addTask={addTask}
                       taskStatusChecked={taskStatusChecked}

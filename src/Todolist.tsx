@@ -8,6 +8,7 @@ type TodolistPropsType = {
     tasksStatusFilter: (taskStatus: TaskStatusType) => void,
     taskStatusChecked: (taskID: string, isDone: boolean) => void,
     addTask: (newTaskTitle: string) => void,
+    taskStatus: TaskStatusType,
 }
 export type TaskStatusType = 'all' | 'active' | 'completed';
 
@@ -69,7 +70,10 @@ export const Todolist = (props: TodolistPropsType) => {
                             props.taskStatusChecked(task.id, newIsDoneValue);
                         }
                         return (
-                            <li><input type="checkbox" checked={task.isDone} onChange={changeTaskStatusChecked}/>
+                            <li key={task.id} className={task.isDone ? "is-done" : ""}>
+                                <input type="checkbox"
+                                       checked={task.isDone}
+                                       onChange={changeTaskStatusChecked}/>
                                 <span>{task.taskTitle}</span>
                                 <button onClick={removeTask}>x</button>
                             </li>
@@ -79,9 +83,15 @@ export const Todolist = (props: TodolistPropsType) => {
                 )}
             </ul>
             <div>
-                <button onClick={() => props.tasksStatusFilter('all')}>All</button>
-                <button onClick={() => props.tasksStatusFilter('active')}>Active</button>
-                <button onClick={() => props.tasksStatusFilter('completed')}>Completed</button>
+                <button className={props.taskStatus === 'all' ? "active-filter" : ""}
+                        onClick={() => props.tasksStatusFilter('all')}>All
+                </button>
+                <button className={props.taskStatus === 'active' ? "active-filter" : ""}
+                        onClick={() => props.tasksStatusFilter('active')}>Active
+                </button>
+                <button className={props.taskStatus === 'completed' ? "active-filter" : ""}
+                        onClick={() => props.tasksStatusFilter('completed')}>Completed
+                </button>
             </div>
         </div>
     );
