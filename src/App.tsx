@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskStatusType, Todolist} from "./Todolist";
+import {TaskStatusType, TaskType, Todolist} from "./Todolist";
 import {v1} from "uuid";
 
 export function App() {
 
-    let [tasks, setTasks] = useState([
+    let [taskStatus, setTaskStatus] = useState<TaskStatusType>('all');
+
+    let [tasks, setTasks] = useState<Array<TaskType>>([
         {id: v1(), taskTitle: "HTML & CSS", isDone: true},
         {id: v1(), taskTitle: "Javascript", isDone: false},
         {id: v1(), taskTitle: "Typescript", isDone: true},
@@ -33,11 +35,10 @@ export function App() {
         setTasks(FilteredTask);
         console.log(tasks)
     }
+
     const tasksStatusFilter = (taskStatus: TaskStatusType) => {
         setTaskStatus(taskStatus)
     }
-
-    const [taskStatus, setTaskStatus] = useState<'all' | 'active' | 'completed'>('all');
 
     let FilteredTasksStatus = tasks;
 

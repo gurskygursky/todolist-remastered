@@ -36,15 +36,6 @@ export const Todolist = (props: TodolistPropsType) => {
         setInputValue('');
     }
 
-    const onAllClickHandler = () => {
-        props.tasksStatusFilter('all');
-    }
-    const onActiveClickHandler = () => {
-        props.tasksStatusFilter('active');
-    }
-    const onCompletedClickHandler = () => {
-        props.tasksStatusFilter('completed');
-    }
     return (
         <div>
             <h3>{props.todolistTitle}</h3>
@@ -72,12 +63,9 @@ export const Todolist = (props: TodolistPropsType) => {
                 )}
             </ul>
             <div>
-                {/*<button onClick={() => props.tasksStatusFilter('all')}>All</button>*/}
-                {/*<button onClick={() => props.tasksStatusFilter('active')}>All</button>*/}
-                {/*<button onClick={() => props.tasksStatusFilter('completed')}>All</button>*/}
-                <button onClick={onAllClickHandler}>All</button>
-                <button onClick={onActiveClickHandler}>Active</button>
-                <button onClick={onCompletedClickHandler}>Completed</button>
+                <button onClick={() => props.tasksStatusFilter('all')}>All</button>
+                <button onClick={() => props.tasksStatusFilter('active')}>Active</button>
+                <button onClick={() => props.tasksStatusFilter('completed')}>Completed</button>
             </div>
         </div>
     );
