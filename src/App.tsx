@@ -1,11 +1,24 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskStatusType, TaskType, Todolist} from "./Todolist";
+import {TaskStatusType, TaskType, Todolist, TodolistType} from "./Todolist";
 import {v1} from "uuid";
 
 export function App() {
 
-    let [taskStatus, setTaskStatus] = useState<TaskStatusType>('all');
+    let [todolists, setTodolists] = useState<Array<TodolistType>>([
+        {
+            id: v1(),
+            title: 'What to learn',
+            taskStatus: 'all'
+        },
+        {
+            id: v1(),
+            title: 'Reading list',
+            taskStatus: 'all'
+        },
+    ])
+
+    // let [taskStatus, setTaskStatus] = useState<TaskStatusType>('all');
 
     let [tasks, setTasks] = useState<Array<TaskType>>([
         {id: v1(), taskTitle: "HTML & CSS", isDone: true},
@@ -36,8 +49,13 @@ export function App() {
         console.log(tasks)
     }
 
-    const tasksStatusFilter = (taskStatus: TaskStatusType) => {
-        setTaskStatus(taskStatus)
+    const tasksStatusFilter = (taskStatus: TaskStatusType, todolistID: string) => {
+        let todolist = todolists.find(td => td.id === todolistID);
+        if (todolist) {
+            todolist.taskStatus = taskStatus;
+            setTodolists([...todolists]);
+        }
+        // setTaskStatus(taskStatus);
     }
     const taskStatusIsChecked = (taskID: string, isDone: boolean) => {
         let task = tasks.find(task => task.id === taskID);
@@ -47,25 +65,50 @@ export function App() {
         }
 
     }
-    let filteredTasksStatus = tasks;
-
-    if (taskStatus === 'active') {
-        filteredTasksStatus = tasks.filter(task => !task.isDone)
-    }
-    if (taskStatus === 'completed') {
-        filteredTasksStatus = tasks.filter(task => task.isDone)
-    }
+    // let filteredTasksStatus = tasks;
+    //
+    // if (taskStatus === 'active') {
+    //     filteredTasksStatus = tasks.filter(task => !task.isDone)
+    // }
+    // if (taskStatus === 'completed') {
+    //     filteredTasksStatus = tasks.filter(task => task.isDone)
+    // }
 
     return (
         <div className="App">
-            <Todolist todolistTitle={'What to learn'}
-                      tasks={filteredTasksStatus}
-                      removeTask={removeTask}
-                      taskStatus={taskStatus}
-                      tasksStatusFilter={tasksStatusFilter}
-                      addTask={addTask}
-                      taskStatusIsChecked={taskStatusIsChecked}
-            />
+            {
+                todolists.map(td => {
+                    let filteredTasksStatus = tasks;
+
+                    if (td.taskStatus === 'active') {
+                        filteredTasksStatus = tasks.filter(task => !task.isDone)
+                    }
+                    if (td.taskStatus === 'completed') {
+                        filteredTasksStatus = tasks.filter(task => task.isDone)
+                    }
+                    return (
+                        <Todolist key={td.id}
+                                  id={td.id}
+                            // todolistTitle={'What to learn'}
+                                  todolistTitle={td.title}
+                                  tasks={filteredTasksStatus}
+                                  removeTask={removeTask}
+                                  taskStatus={td.taskStatus}
+                                  tasksStatusFilter={tasksStatusFilter}
+                                  addTask={addTask}
+                                  taskStatusIsChecked={taskStatusIsChecked}
+                        />
+                    )
+                })
+            }
+            {/*<Todolist todolistTitle={'What to learn'}*/}
+            {/*          tasks={filteredTasksStatus}*/}
+            {/*          removeTask={removeTask}*/}
+            {/*          taskStatus={taskStatus}*/}
+            {/*          tasksStatusFilter={tasksStatusFilter}*/}
+            {/*          addTask={addTask}*/}
+            {/*          taskStatusIsChecked={taskStatusIsChecked}*/}
+            {/*/>*/}
             {/*<Todolist todolistTitle={'Reading list'} tasks={tasks} removeTask={removeTask}/>*/}
         </div>
     );

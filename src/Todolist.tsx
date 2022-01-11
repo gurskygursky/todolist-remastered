@@ -2,12 +2,18 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import './App.css';
 
 type TodolistPropsType = {
+    id: string,
     todolistTitle: string;
     tasks: Array<TaskType>;
     removeTask: (id: string) => void;
-    tasksStatusFilter: (taskStatus: TaskStatusType) => void;
+    tasksStatusFilter: (taskStatus: TaskStatusType, todolistID: string) => void;
     taskStatusIsChecked: (taskID: string, isDone: boolean) => void;
     addTask: (newTaskTitle: string) => void;
+    taskStatus: TaskStatusType;
+}
+export type TodolistType = {
+    id: string;
+    title: string;
     taskStatus: TaskStatusType;
 }
 export type TaskStatusType = 'all' | 'active' | 'completed';
@@ -84,13 +90,13 @@ export const Todolist = (props: TodolistPropsType) => {
             </ul>
             <div>
                 <button className={props.taskStatus === 'all' ? "active-filter" : ""}
-                        onClick={() => props.tasksStatusFilter('all')}>All
+                        onClick={() => props.tasksStatusFilter('all', props.id)}>All
                 </button>
                 <button className={props.taskStatus === 'active' ? "active-filter" : ""}
-                        onClick={() => props.tasksStatusFilter('active')}>Active
+                        onClick={() => props.tasksStatusFilter('active', props.id)}>Active
                 </button>
                 <button className={props.taskStatus === 'completed' ? "active-filter" : ""}
-                        onClick={() => props.tasksStatusFilter('completed')}>Completed
+                        onClick={() => props.tasksStatusFilter('completed', props.id)}>Completed
                 </button>
             </div>
         </div>
