@@ -39,7 +39,7 @@ export function App() {
     const tasksStatusFilter = (taskStatus: TaskStatusType) => {
         setTaskStatus(taskStatus)
     }
-    const taskStatusChecked = (taskID: string, isDone: boolean) => {
+    const taskStatusIsChecked = (taskID: string, isDone: boolean) => {
         let task = tasks.find(task => task.id === taskID);
         if (task) {
             task.isDone = isDone;
@@ -47,24 +47,24 @@ export function App() {
         }
 
     }
-    let FilteredTasksStatus = tasks;
+    let filteredTasksStatus = tasks;
 
     if (taskStatus === 'active') {
-        FilteredTasksStatus = tasks.filter(task => !task.isDone)
+        filteredTasksStatus = tasks.filter(task => !task.isDone)
     }
     if (taskStatus === 'completed') {
-        FilteredTasksStatus = tasks.filter(task => task.isDone)
+        filteredTasksStatus = tasks.filter(task => task.isDone)
     }
 
     return (
         <div className="App">
             <Todolist todolistTitle={'What to learn'}
-                      tasks={FilteredTasksStatus}
+                      tasks={filteredTasksStatus}
                       removeTask={removeTask}
                       taskStatus={taskStatus}
                       tasksStatusFilter={tasksStatusFilter}
                       addTask={addTask}
-                      taskStatusChecked={taskStatusChecked}
+                      taskStatusIsChecked={taskStatusIsChecked}
             />
             {/*<Todolist todolistTitle={'Reading list'} tasks={tasks} removeTask={removeTask}/>*/}
         </div>

@@ -2,20 +2,20 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import './App.css';
 
 type TodolistPropsType = {
-    todolistTitle: string,
-    tasks: Array<TaskType>,
-    removeTask: (id: string) => void,
-    tasksStatusFilter: (taskStatus: TaskStatusType) => void,
-    taskStatusChecked: (taskID: string, isDone: boolean) => void,
-    addTask: (newTaskTitle: string) => void,
-    taskStatus: TaskStatusType,
+    todolistTitle: string;
+    tasks: Array<TaskType>;
+    removeTask: (id: string) => void;
+    tasksStatusFilter: (taskStatus: TaskStatusType) => void;
+    taskStatusIsChecked: (taskID: string, isDone: boolean) => void;
+    addTask: (newTaskTitle: string) => void;
+    taskStatus: TaskStatusType;
 }
 export type TaskStatusType = 'all' | 'active' | 'completed';
 
 export type TaskType = {
-    id: string,
-    taskTitle: string,
-    isDone: boolean,
+    id: string;
+    taskTitle: string;
+    isDone: boolean;
 }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -31,7 +31,7 @@ export const Todolist = (props: TodolistPropsType) => {
     const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             if (inputValue.trim() !== '') {
-                props.addTask(inputValue);
+                props.addTask(inputValue.trim());
                 setInputValue('');
             } else {
                 setError("Title is required!")
@@ -41,7 +41,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
     const addTask = () => {
         if (inputValue.trim() !== '') {
-            props.addTask(inputValue);
+            props.addTask(inputValue.trim());
             setInputValue('');
         } else {
             setError("Title is required!")
@@ -65,15 +65,15 @@ export const Todolist = (props: TodolistPropsType) => {
                         const removeTask = () => {
                             props.removeTask(task.id)
                         }
-                        const changeTaskStatusChecked = (event: ChangeEvent<HTMLInputElement>) => {
+                        const onChangeTaskIsChecked = (event: ChangeEvent<HTMLInputElement>) => {
                             const newIsDoneValue = event.currentTarget.checked;
-                            props.taskStatusChecked(task.id, newIsDoneValue);
+                            props.taskStatusIsChecked(task.id, newIsDoneValue);
                         }
                         return (
                             <li key={task.id} className={task.isDone ? "is-done" : ""}>
                                 <input type="checkbox"
                                        checked={task.isDone}
-                                       onChange={changeTaskStatusChecked}/>
+                                       onChange={onChangeTaskIsChecked}/>
                                 <span>{task.taskTitle}</span>
                                 <button onClick={removeTask}>x</button>
                             </li>
