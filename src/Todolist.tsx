@@ -1,5 +1,6 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import './App.css';
+import {AddItemForm} from "./components/AddItemForm";
 
 type TodolistPropsType = {
     id: string,
@@ -26,82 +27,8 @@ export type TaskType = {
 export type TasksStateType = {
     [key: string]: Array<TaskType>;
 }
-type AddItemFormType = {
-    addItem: (title: string) => void;
-}
-
-export const AddItemForm = (props: AddItemFormType ) => {
-
-    let [inputValue, setInputValue] = useState<string>('');
-    let [error, setError] = useState<string | null>(null);
-
-    const onChangeInputValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setError(null);
-        setInputValue(event.currentTarget.value);
-    }
-
-    const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            if (inputValue.trim() !== '') {
-                props.addItem(inputValue.trim());
-                setInputValue('');
-            } else {
-                setError("Title is required!")
-            }
-        }
-    }
-
-    const addItem = () => {
-        if (inputValue.trim() !== '') {
-            props.addItem(inputValue.trim());
-            setInputValue('');
-        } else {
-            setError("Title is required!")
-        }
-    }
-
-    return (
-        <div>
-            <input value={inputValue}
-                   onChange={onChangeInputValueHandler}
-                   onKeyPress={keyPressHandler}
-                   className={error ? "error" : ""}
-            />
-            <button onClick={addItem}>+</button>
-            {error && <div className={"error-message"}>{error}</div>}
-        </div>
-    )
-}
 
 export const Todolist = (props: TodolistPropsType) => {
-
-    // let [inputValue, setInputValue] = useState<string>('');
-    // let [error, setError] = useState<string | null>(null);
-
-    // const onChangeInputValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    //     setError(null);
-    //     setInputValue(event.currentTarget.value);
-    // }
-    //
-    // const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    //     if (event.key === 'Enter') {
-    //         if (inputValue.trim() !== '') {
-    //             props.addTask(props.id, inputValue.trim());
-    //             setInputValue('');
-    //         } else {
-    //             setError("Title is required!")
-    //         }
-    //     }
-    // }
-    //
-    // const addTask = () => {
-    //     if (inputValue.trim() !== '') {
-    //         props.addTask(props.id, inputValue.trim());
-    //         setInputValue('');
-    //     } else {
-    //         setError("Title is required!")
-    //     }
-    // }
 
     const addTask = (title: string) => {
         props.addTask(props.id, title)
@@ -111,15 +38,6 @@ export const Todolist = (props: TodolistPropsType) => {
         <div>
             <h3>{props.todolistTitle}</h3>
             <AddItemForm addItem={addTask}/>
-            {/*<div>*/}
-            {/*    <input value={inputValue}*/}
-            {/*           onChange={onChangeInputValueHandler}*/}
-            {/*           onKeyPress={keyPressHandler}*/}
-            {/*           className={error ? "error" : ""}*/}
-            {/*    />*/}
-            {/*    <button onClick={addTask}>+</button>*/}
-            {/*    {error && <div className={"error-message"}>{error}</div>}*/}
-            {/*</div>*/}
             <ul>
                 {props.tasks.map(task => {
                         const removeTask = () => {

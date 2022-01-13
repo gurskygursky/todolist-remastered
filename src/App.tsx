@@ -100,15 +100,6 @@ export function App() {
                     )
                 })
             }
-            {/*<Todolist todolistTitle={'What to learn'}*/}
-            {/*          tasks={filteredTasksStatus}*/}
-            {/*          removeTask={removeTask}*/}
-            {/*          taskStatus={taskStatus}*/}
-            {/*          tasksStatusFilter={tasksStatusFilter}*/}
-            {/*          addTask={addTask}*/}
-            {/*          taskStatusIsChecked={taskStatusIsChecked}*/}
-            {/*/>*/}
-            {/*<Todolist todolistTitle={'Reading list'} tasks={tasks} removeTask={removeTask}/>*/}
         </div>
     );
 }
