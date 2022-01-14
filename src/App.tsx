@@ -62,8 +62,15 @@ export function App() {
             task.isDone = isDone;
             setTasks({...tasks})
         }
-
     }
+    const changeTaskTitle = (todolistID: string, taskID: string, newTaskTitle: string) => {
+        let task = tasks[todolistID].find(task => task.id === taskID);
+        if (task) {
+            task.taskTitle = newTaskTitle;
+            setTasks({...tasks})
+        }
+    }
+
     // let filteredTasksStatus = tasks;
     //
     // if (taskStatus === 'active') {
@@ -96,6 +103,7 @@ export function App() {
                                   tasksStatusFilter={tasksStatusFilter}
                                   addTask={addTask}
                                   taskStatusIsChecked={taskStatusIsChecked}
+                                  changeTaskTitle={changeTaskTitle}
                         />
                     )
                 })
