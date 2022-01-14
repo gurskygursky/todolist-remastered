@@ -70,6 +70,14 @@ export function App() {
             setTasks({...tasks})
         }
     }
+    const changeTodolistTitle = (todolistID: string, newTodolistTitle: string) => {
+        let todolist = todolists.find(td => td.id === todolistID);
+        if (todolist) {
+            todolist.todolistTitle = newTodolistTitle;
+            setTodolists([...todolists]);
+        }
+    }
+
 
     // let filteredTasksStatus = tasks;
     //
@@ -104,6 +112,7 @@ export function App() {
                                   addTask={addTask}
                                   taskStatusIsChecked={taskStatusIsChecked}
                                   changeTaskTitle={changeTaskTitle}
+                                  changeTodolistTitle={changeTodolistTitle}
                         />
                     )
                 })

@@ -11,6 +11,7 @@ type TodolistPropsType = {
     taskStatusIsChecked: (todolistID: string, taskID: string, isDone: boolean) => void;
     addTask: (todolistID: string, newTaskTitle: string) => void;
     changeTaskTitle: (todolistID: string, taskID: string, newTaskTitle: string) => void;
+    changeTodolistTitle: (todolistID: string, newTodlistTitle: string) => void;
     taskStatus: TaskStatusType;
 }
 export type TodolistType = {
@@ -66,10 +67,14 @@ export const Todolist = (props: TodolistPropsType) => {
     const addTask = (title: string) => {
         props.addTask(props.id, title)
     }
+    const onChangeTodolistTitleHandler = (newValue: string) => {
+        props.changeTodolistTitle(props.id, newValue);
+    }
 
     return (
         <div>
-            <h3>{props.todolistTitle}</h3>
+            <EditableSpan value={props.todolistTitle} onChange={onChangeTodolistTitleHandler}/>
+            {/*<h3>{props.todolistTitle}</h3>*/}
             <AddItemForm addItem={addTask}/>
             <ul>
                 {props.tasks.map(task => {
