@@ -1,17 +1,18 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import './App.css';
 import {AddItemForm} from "./components/AddItemForm";
+import {EditableSpan} from "./components/EditableSpan";
 
 type TodolistPropsType = {
     id: string,
     todolistTitle: string;
     tasks: Array<TaskType>;
     removeTask: (todolistID: string, taskID: string) => void;
+    addTask: (todolistID: string, newTaskTitle: string) => void;
     tasksStatusFilter: (todolistID: string, taskStatus: TaskStatusType) => void;
     taskStatusIsChecked: (todolistID: string, taskID: string, isDone: boolean) => void;
-    addTask: (todolistID: string, newTaskTitle: string) => void;
-    changeTaskTitle: (todolistID: string, taskID: string, newTaskTitle: string) => void;
-    changeTodolistTitle: (todolistID: string, newTodlistTitle: string) => void;
+    onChangeTaskTitle: (todolistID: string, taskID: string, newTaskTitle: string) => void;
+    onChangeTodolistTitle: (todolistID: string, newTodolistTitle: string) => void;
     taskStatus: TaskStatusType;
 }
 export type TodolistType = {
@@ -30,51 +31,20 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>;
 }
 
-type EditableSpanType = {
-    value: string;
-    onChange: (newInputValue: string) => void
-}
-export const EditableSpan = (props: EditableSpanType) => {
-
-    let [editMode, setEditMode] = useState<boolean>(false);
-    let [inputValue, setInputValue] = useState<string>('');
-
-    const activateEditMode = () => {
-        setEditMode(true);
-        setInputValue(props.value);
-    }
-    const deactivateEditMode = () => {
-        setEditMode(false);
-        props.onChange(inputValue);
-    }
-    const onChangeInputValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.currentTarget.value);
-    }
-
-    return (
-        editMode
-            ? <input value={inputValue}
-                     onChange={onChangeInputValueHandler}
-                     onBlur={deactivateEditMode}
-                     autoFocus={true}
-            />
-            : <span onDoubleClick={activateEditMode}>{props.value}</span>
-    )
-}
-
 export const Todolist = (props: TodolistPropsType) => {
 
     const addTask = (title: string) => {
         props.addTask(props.id, title)
     }
-    const onChangeTodolistTitleHandler = (newValue: string) => {
-        props.changeTodolistTitle(props.id, newValue);
+    const onChangeTodolistTitleHandler = (newTodolistTitle: string) => {
+        props.onChangeTodolistTitle(props.id, newTodolistTitle)
     }
 
     return (
         <div>
-            <EditableSpan value={props.todolistTitle} onChange={onChangeTodolistTitleHandler}/>
-            {/*<h3>{props.todolistTitle}</h3>*/}
+            <EditableSpan value={props.todolistTitle}
+                          onChange={onChangeTodolistTitleHandler}
+            />
             <AddItemForm addItem={addTask}/>
             <ul>
                 {props.tasks.map(task => {
@@ -85,15 +55,14 @@ export const Todolist = (props: TodolistPropsType) => {
                             const newIsDoneValue = event.currentTarget.checked;
                             props.taskStatusIsChecked(props.id, task.id, newIsDoneValue);
                         }
-                        const onChangeTaskTitleHandler = (newValue: string) => {
-                            props.changeTaskTitle(props.id, task.id, newValue);
+                        const onChangeTaskTitleHandler = (newInputValue: string) => {
+                            props.onChangeTaskTitle(props.id, task.id, newInputValue);
                         }
                         return (
                             <li key={task.id} className={task.isDone ? "is-done" : ""}>
                                 <input type="checkbox"
                                        checked={task.isDone}
                                        onChange={onChangeTaskIsChecked}/>
-                                {/*<span>{task.taskTitle}</span>*/}
                                 <EditableSpan value={task.taskTitle}
                                               onChange={onChangeTaskTitleHandler}
                                 />
@@ -118,3 +87,4 @@ export const Todolist = (props: TodolistPropsType) => {
         </div>
     );
 }
+

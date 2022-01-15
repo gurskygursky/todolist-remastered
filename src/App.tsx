@@ -13,8 +13,6 @@ export function App() {
         {id: todolistID2, todolistTitle: 'Reading list', taskStatus: 'all'},
     ]);
 
-    // let [taskStatus, setTaskStatus] = useState<TaskStatusType>('all');
-
     let [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
             {id: v1(), taskTitle: "HTML & CSS", isDone: true},
@@ -32,20 +30,17 @@ export function App() {
             {id: v1(), taskTitle: "The Double", isDone: true},
             {id: v1(), taskTitle: "The Master and Margarita", isDone: false},
         ],
-    })
+    });
 
     const addTask = (todolistID: string, newTaskTitle: string) => {
         const task = {id: v1(), taskTitle: newTaskTitle, isDone: true};
-        tasks[todolistID] = [task, ...tasks[todolistID]]
+        tasks[todolistID] = [task, ...tasks[todolistID]];
         setTasks({...tasks});
-        // const newTask = [task, ...tasks];
-        // setTasks(newTask);
     }
 
     const removeTask = (todolistID: string, taskID: string) => {
         tasks[todolistID] = tasks[todolistID].filter(task => task.id !== taskID)
         setTasks({...tasks});
-        console.log(tasks)
     }
 
     const tasksStatusFilter = (todolistID: string, taskStatus: TaskStatusType) => {
@@ -54,23 +49,22 @@ export function App() {
             todolist.taskStatus = taskStatus;
             setTodolists([...todolists]);
         }
-        // setTaskStatus(taskStatus);
     }
     const taskStatusIsChecked = (todolistID: string, taskID: string, isDone: boolean) => {
         let task = tasks[todolistID].find(task => task.id === taskID);
         if (task) {
             task.isDone = isDone;
-            setTasks({...tasks})
+            setTasks({...tasks});
         }
     }
-    const changeTaskTitle = (todolistID: string, taskID: string, newTaskTitle: string) => {
+    const onChangeTaskTitle = (todolistID: string, taskID: string, newTaskTitle: string) => {
         let task = tasks[todolistID].find(task => task.id === taskID);
         if (task) {
             task.taskTitle = newTaskTitle;
-            setTasks({...tasks})
+            setTasks({...tasks});
         }
     }
-    const changeTodolistTitle = (todolistID: string, newTodolistTitle: string) => {
+    const onChangeTodolistTitle = (todolistID: string, newTodolistTitle: string) => {
         let todolist = todolists.find(td => td.id === todolistID);
         if (todolist) {
             todolist.todolistTitle = newTodolistTitle;
@@ -78,32 +72,20 @@ export function App() {
         }
     }
 
-
-    // let filteredTasksStatus = tasks;
-    //
-    // if (taskStatus === 'active') {
-    //     filteredTasksStatus = tasks.filter(task => !task.isDone)
-    // }
-    // if (taskStatus === 'completed') {
-    //     filteredTasksStatus = tasks.filter(task => task.isDone)
-    // }
-
     return (
         <div className="App">
             {
                 todolists.map(td => {
                     let filteredTasksStatus = tasks[td.id];
-
                     if (td.taskStatus === 'active') {
-                        filteredTasksStatus = tasks[td.id].filter(task => !task.isDone)
+                        filteredTasksStatus = tasks[td.id].filter(task => !task.isDone);
                     }
                     if (td.taskStatus === 'completed') {
-                        filteredTasksStatus = tasks[td.id].filter(task => task.isDone)
+                        filteredTasksStatus = tasks[td.id].filter(task => task.isDone);
                     }
                     return (
                         <Todolist key={td.id}
                                   id={td.id}
-                            // todolistTitle={'What to learn'}
                                   todolistTitle={td.todolistTitle}
                                   tasks={filteredTasksStatus}
                                   removeTask={removeTask}
@@ -111,8 +93,8 @@ export function App() {
                                   tasksStatusFilter={tasksStatusFilter}
                                   addTask={addTask}
                                   taskStatusIsChecked={taskStatusIsChecked}
-                                  changeTaskTitle={changeTaskTitle}
-                                  changeTodolistTitle={changeTodolistTitle}
+                                  onChangeTaskTitle={onChangeTaskTitle}
+                                  onChangeTodolistTitle={onChangeTodolistTitle}
                         />
                     )
                 })
