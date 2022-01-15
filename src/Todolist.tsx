@@ -8,6 +8,7 @@ type TodolistPropsType = {
     todolistTitle: string;
     tasks: Array<TaskType>;
     removeTask: (todolistID: string, taskID: string) => void;
+    removeTodolist: (todolistID: string) => void;
     addTask: (todolistID: string, newTaskTitle: string) => void;
     tasksStatusFilter: (todolistID: string, taskStatus: TaskStatusType) => void;
     taskStatusIsChecked: (todolistID: string, taskID: string, isDone: boolean) => void;
@@ -36,6 +37,9 @@ export const Todolist = (props: TodolistPropsType) => {
     const addTask = (title: string) => {
         props.addTask(props.id, title)
     }
+    const removeTodolist = () => {
+        props.removeTodolist(props.id);
+    }
     const onChangeTodolistTitleHandler = (newTodolistTitle: string) => {
         props.onChangeTodolistTitle(props.id, newTodolistTitle)
     }
@@ -45,6 +49,7 @@ export const Todolist = (props: TodolistPropsType) => {
             <EditableSpan value={props.todolistTitle}
                           onChange={onChangeTodolistTitleHandler}
             />
+            <button onClick={removeTodolist}>x</button>
             <AddItemForm addItem={addTask}/>
             <ul>
                 {props.tasks.map(task => {

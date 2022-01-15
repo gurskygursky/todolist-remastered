@@ -42,7 +42,11 @@ export function App() {
         tasks[todolistID] = tasks[todolistID].filter(task => task.id !== taskID)
         setTasks({...tasks});
     }
-
+    const removeTodolist = (todolistID: string) => {
+        setTodolists(todolists.filter(td => td.id !== todolistID));
+        delete tasks[todolistID];
+        setTasks({...tasks});
+    }
     const tasksStatusFilter = (todolistID: string, taskStatus: TaskStatusType) => {
         let todolist = todolists.find(td => td.id === todolistID);
         if (todolist) {
@@ -89,6 +93,7 @@ export function App() {
                                   todolistTitle={td.todolistTitle}
                                   tasks={filteredTasksStatus}
                                   removeTask={removeTask}
+                                  removeTodolist={removeTodolist}
                                   taskStatus={td.taskStatus}
                                   tasksStatusFilter={tasksStatusFilter}
                                   addTask={addTask}
