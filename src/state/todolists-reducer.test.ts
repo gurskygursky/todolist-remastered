@@ -1,5 +1,6 @@
 import {
-    AddtodolistActionCreator, ChangeTodlistFilterActionCreator,
+    AddtodolistActionCreator,
+    ChangeTodlistFilterActionCreator,
     ChangeTodolistTitleActionCreator,
     RemoveTodolistActionCreator,
     todolistsReducer
