@@ -1,11 +1,12 @@
 import {
-    addTaskActionCreator,
+    addTaskActionCreator, addTodolistActionCreator,
     changeTaskStatusActionCreator,
     changeTaskTitleActionCreator,
     removeTaskActionCreator,
     tasksReducer
 } from './tasks-reducer';
 import {TasksStateType} from "../Todolist";
+import {RemoveTodolistActionCreator} from "./todolists-reducer";
 
 test('correct task should be deleted from correct array', () => {
     const startState: TasksStateType = {
@@ -138,4 +139,68 @@ test('title of specified task should be changed', () => {
     expect(endState["todolistID1"][1].isDone).toBe(false);
     expect(endState["todolistID2"][1].taskTitle).toBe("Crime and Punishment");
 });
+test('new array should be added when new todolist is added', () => {
+    const startState: TasksStateType = {
+        "todolistID1": [
+            {id: "1", taskTitle: "HTML & CSS", isDone: true},
+            {id: "2", taskTitle: "Javascript", isDone: false},
+            {id: "3", taskTitle: "Typescript", isDone: true},
+            {id: "4", taskTitle: "React", isDone: true},
+            {id: "5", taskTitle: "Rest API", isDone: true},
+            {id: "6", taskTitle: "Redux", isDone: true},
+        ],
+        "todolistID2": [
+            {id: "1", taskTitle: "1984", isDone: true},
+            {id: "2", taskTitle: "The Financier", isDone: true},
+            {id: "3", taskTitle: "The Stoic", isDone: true},
+            {id: "4", taskTitle: "The Titan", isDone: true},
+            {id: "5", taskTitle: "The Double", isDone: true},
+            {id: "6", taskTitle: "The Master and Margarita", isDone: false},
+        ],
+    };
+
+    const action = addTodolistActionCreator("new todolist");
+
+    const endState = tasksReducer(startState, action)
+
+    const keys = Object.keys(endState);
+    const newKey = keys.find(k => k !== "todolistID1" && k !== "todolistID2");
+    if (!newKey) {
+        throw Error("new key should be added")
+    }
+
+    expect(keys.length).toBe(3);
+    expect(endState[newKey]).toEqual([]);
+});
+test('property with todolistId should be deleted', () => {
+    const startState: TasksStateType = {
+        "todolistID1": [
+            {id: "1", taskTitle: "HTML & CSS", isDone: true},
+            {id: "2", taskTitle: "Javascript", isDone: false},
+            {id: "3", taskTitle: "Typescript", isDone: true},
+            {id: "4", taskTitle: "React", isDone: true},
+            {id: "5", taskTitle: "Rest API", isDone: true},
+            {id: "6", taskTitle: "Redux", isDone: true},
+        ],
+        "todolistID2": [
+            {id: "1", taskTitle: "1984", isDone: true},
+            {id: "2", taskTitle: "The Financier", isDone: true},
+            {id: "3", taskTitle: "The Stoic", isDone: true},
+            {id: "4", taskTitle: "The Titan", isDone: true},
+            {id: "5", taskTitle: "The Double", isDone: true},
+            {id: "6", taskTitle: "The Master and Margarita", isDone: false},
+        ],
+    };
+
+    const action = RemoveTodolistActionCreator("todolistID2");
+
+    const endState = tasksReducer(startState, action)
+
+
+    const keys = Object.keys(endState);
+
+    expect(keys.length).toBe(1);
+    expect(endState["todolistID2"]).not.toBeDefined();
+});
+
 
