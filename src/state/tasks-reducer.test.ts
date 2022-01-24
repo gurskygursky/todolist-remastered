@@ -1,12 +1,6 @@
-import {
-    addTaskActionCreator, addTodolistActionCreator,
-    changeTaskStatusActionCreator,
-    changeTaskTitleActionCreator,
-    removeTaskActionCreator,
-    tasksReducer
-} from './tasks-reducer';
 import {TasksStateType} from "../Todolist";
-import {RemoveTodolistActionCreator} from "./todolists-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./tasks-reducer";
+import {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
 
 test('correct task should be deleted from correct array', () => {
     const startState: TasksStateType = {
@@ -28,9 +22,8 @@ test('correct task should be deleted from correct array', () => {
         ],
     };
 
-    const action = removeTaskActionCreator("todolistID2", "2");
-
-    const endState = tasksReducer(startState, action)
+    const action = removeTaskAC("todolistID2", "2");
+    const endState = tasksReducer(startState, action);
 
     expect(endState).toEqual({
         "todolistID1": [
@@ -71,9 +64,8 @@ test('correct task should be added to correct array', () => {
         ],
     };
 
-    const action = addTaskActionCreator("todolistID2", "juice");
-
-    const endState = tasksReducer(startState, action)
+    const action = addTaskAC("todolistID2", "juice");
+    const endState = tasksReducer(startState, action);
 
     expect(endState["todolistID1"].length).toBe(6);
     expect(endState["todolistID2"].length).toBe(7);
@@ -103,9 +95,8 @@ test('status of specified task should be changed', () => {
         ],
     };
 
-    const action = changeTaskStatusActionCreator("todolistID2", "2", false,);
-
-    const endState = tasksReducer(startState, action)
+    const action = changeTaskStatusAC("todolistID2", "2", false,);
+    const endState = tasksReducer(startState, action);
 
     expect(endState["todolistID2"][1].isDone).toBe(false);
     expect(endState["todolistID1"][1].isDone).toBe(false);
@@ -131,9 +122,9 @@ test('title of specified task should be changed', () => {
         ],
     };
 
-    const action = changeTaskTitleActionCreator("todolistID2", "2", "Crime and Punishment",);
+    const action = changeTaskTitleAC("todolistID2", "2", "Crime and Punishment",);
 
-    const endState = tasksReducer(startState, action)
+    const endState = tasksReducer(startState, action);
 
     expect(endState["todolistID2"][1].isDone).toBe(true);
     expect(endState["todolistID1"][1].isDone).toBe(false);
@@ -159,9 +150,8 @@ test('new array should be added when new todolist is added', () => {
         ],
     };
 
-    const action = addTodolistActionCreator("new todolist");
-
-    const endState = tasksReducer(startState, action)
+    const action = addTodolistAC("new todolist");
+    const endState = tasksReducer(startState, action);
 
     const keys = Object.keys(endState);
     const newKey = keys.find(k => k !== "todolistID1" && k !== "todolistID2");
@@ -192,10 +182,8 @@ test('property with todolistId should be deleted', () => {
         ],
     };
 
-    const action = RemoveTodolistActionCreator("todolistID2");
-
-    const endState = tasksReducer(startState, action)
-
+    const action = removeTodolistAC("todolistID2");
+    const endState = tasksReducer(startState, action);
 
     const keys = Object.keys(endState);
 

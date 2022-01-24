@@ -1,17 +1,13 @@
 import {v1} from "uuid";
 import {TaskStatusType, TodolistType} from "../Todolist";
 
-type ActionType = {
-    type: string
-    [key: string]: any
-}
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST',
     id: string;
 }
 export type AddTodolistActionType = {
     type: 'ADD-TODOLIST',
-    todolistID: string,
+    id: string,
     todolistTitle: string,
 }
 type ChangeTodolistTitleActionType = {
@@ -29,27 +25,27 @@ type ActionsType = RemoveTodolistActionType
     | ChangeTodolistTitleActionType
     | ChangeTodolistFilterActionType;
 
-export const RemoveTodolistActionCreator = (todolistID: string): RemoveTodolistActionType => {
+export const removeTodolistAC = (todolistID: string): RemoveTodolistActionType => {
     return {
         type: 'REMOVE-TODOLIST',
         id: todolistID,
     }
 }
-export const AddtodolistActionCreator = (newTodolistTitle: string): AddTodolistActionType => {
+export const addTodolistAC = (newTodolistTitle: string): AddTodolistActionType => {
     return {
         type: 'ADD-TODOLIST',
-        todolistID: v1(),
+        id: v1(),
         todolistTitle: newTodolistTitle,
     }
 }
-export const ChangeTodolistTitleActionCreator = (todolistID: string, newTodolistTitle: string): ChangeTodolistTitleActionType => {
+export const changeTodolistTitleAC = (todolistID: string, newTodolistTitle: string): ChangeTodolistTitleActionType => {
     return {
         type: 'CHANGE-TODOLIST-TITLE',
         id: todolistID,
         todolistTitle: newTodolistTitle,
     }
 }
-export const ChangeTodlistFilterActionCreator = (todolistID: string, changeTaskStatus: TaskStatusType): ChangeTodolistFilterActionType => {
+export const changeTodolistFilterAC = (todolistID: string, changeTaskStatus: TaskStatusType): ChangeTodolistFilterActionType => {
     return {
         type: 'CHANGE-TODOLIST-FILTER',
         id: todolistID,
@@ -64,7 +60,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: ActionsType
         }
         case 'ADD-TODOLIST': {
             return [...state, {
-                id: action.todolistID,
+                id: action.id,
                 todolistTitle: action.todolistTitle,
                 taskStatus: 'all',
             }];
