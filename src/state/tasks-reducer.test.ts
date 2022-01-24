@@ -1,4 +1,10 @@
-import {AddTaskActionCreator, RemoveTaskActionCreator, tasksReducer} from './tasks-reducer';
+import {
+    addTaskActionCreator,
+    changeTaskStatusActionCreator,
+    changeTaskTitleActionCreator,
+    removeTaskActionCreator,
+    tasksReducer
+} from './tasks-reducer';
 import {TasksStateType} from "../Todolist";
 
 test('correct task should be deleted from correct array', () => {
@@ -21,7 +27,7 @@ test('correct task should be deleted from correct array', () => {
         ],
     };
 
-    const action = RemoveTaskActionCreator("todolistID2", "2");
+    const action = removeTaskActionCreator("todolistID2", "2");
 
     const endState = tasksReducer(startState, action)
 
@@ -64,7 +70,7 @@ test('correct task should be added to correct array', () => {
         ],
     };
 
-    const action = AddTaskActionCreator("todolistID2", "juice");
+    const action = addTaskActionCreator("todolistID2", "juice");
 
     const endState = tasksReducer(startState, action)
 
@@ -73,4 +79,63 @@ test('correct task should be added to correct array', () => {
     expect(endState["todolistID2"][0].id).toBe("1");
     expect(endState["todolistID2"][0].taskTitle).toBe("juice");
     expect(endState["todolistID2"][0].isDone).toBe(false);
-})
+    expect(endState["todolistID2"][1].taskTitle).toBe("1984");
+
+});
+test('status of specified task should be changed', () => {
+    const startState: TasksStateType = {
+        "todolistID1": [
+            {id: "1", taskTitle: "HTML & CSS", isDone: true},
+            {id: "2", taskTitle: "Javascript", isDone: false},
+            {id: "3", taskTitle: "Typescript", isDone: true},
+            {id: "4", taskTitle: "React", isDone: true},
+            {id: "5", taskTitle: "Rest API", isDone: true},
+            {id: "6", taskTitle: "Redux", isDone: true},
+        ],
+        "todolistID2": [
+            {id: "1", taskTitle: "1984", isDone: true},
+            {id: "2", taskTitle: "The Financier", isDone: true},
+            {id: "3", taskTitle: "The Stoic", isDone: true},
+            {id: "4", taskTitle: "The Titan", isDone: true},
+            {id: "5", taskTitle: "The Double", isDone: true},
+            {id: "6", taskTitle: "The Master and Margarita", isDone: false},
+        ],
+    };
+
+    const action = changeTaskStatusActionCreator("todolistID2", "2", false,);
+
+    const endState = tasksReducer(startState, action)
+
+    expect(endState["todolistID2"][1].isDone).toBe(false);
+    expect(endState["todolistID1"][1].isDone).toBe(false);
+    expect(endState["todolistID2"][1].taskTitle).toBe("The Financier");
+});
+test('title of specified task should be changed', () => {
+    const startState: TasksStateType = {
+        "todolistID1": [
+            {id: "1", taskTitle: "HTML & CSS", isDone: true},
+            {id: "2", taskTitle: "Javascript", isDone: false},
+            {id: "3", taskTitle: "Typescript", isDone: true},
+            {id: "4", taskTitle: "React", isDone: true},
+            {id: "5", taskTitle: "Rest API", isDone: true},
+            {id: "6", taskTitle: "Redux", isDone: true},
+        ],
+        "todolistID2": [
+            {id: "1", taskTitle: "1984", isDone: true},
+            {id: "2", taskTitle: "The Financier", isDone: true},
+            {id: "3", taskTitle: "The Stoic", isDone: true},
+            {id: "4", taskTitle: "The Titan", isDone: true},
+            {id: "5", taskTitle: "The Double", isDone: true},
+            {id: "6", taskTitle: "The Master and Margarita", isDone: false},
+        ],
+    };
+
+    const action = changeTaskTitleActionCreator("todolistID2", "2", "Crime and Punishment",);
+
+    const endState = tasksReducer(startState, action)
+
+    expect(endState["todolistID2"][1].isDone).toBe(true);
+    expect(endState["todolistID1"][1].isDone).toBe(false);
+    expect(endState["todolistID2"][1].taskTitle).toBe("Crime and Punishment");
+});
+
