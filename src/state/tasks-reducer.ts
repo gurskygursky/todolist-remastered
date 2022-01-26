@@ -61,7 +61,9 @@ export const changeTaskTitleAC = (todolistID: string, taskID: string, taskTitle:
     }
 }
 
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+const initialState: TasksStateType = {};
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE_TASK': {
             const stateCopy = {...state};
@@ -99,7 +101,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             delete stateCopy[action.id];
             return stateCopy;
         }
-        default:
-            throw new Error("I don't understand this type")
+        // default:
+        //     throw new Error("I don't understand this type")
     }
 }
