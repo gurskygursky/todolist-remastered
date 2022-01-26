@@ -101,6 +101,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             delete stateCopy[action.id];
             return stateCopy;
         }
+        default: return state;
         // default:
         //     throw new Error("I don't understand this type")
     }

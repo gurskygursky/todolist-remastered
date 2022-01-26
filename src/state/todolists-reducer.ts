@@ -81,6 +81,7 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState, acti
             }
             return [...state]
         }
+        default: return state;
         // default:
         //     throw new Error("I don't understand this type")
     }
