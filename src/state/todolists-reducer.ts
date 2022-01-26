@@ -49,7 +49,7 @@ export const changeTodolistFilterAC = (todolistID: string, changeTaskStatus: Tas
     return {
         type: 'CHANGE-TODOLIST-FILTER',
         id: todolistID,
-        changeTaskStatus: 'completed',
+        changeTaskStatus: changeTaskStatus,
     }
 }
 
