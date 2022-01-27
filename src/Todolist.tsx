@@ -10,19 +10,18 @@ type TodolistPropsType = {
     removeTask: (todolistID: string, taskID: string) => void;
     removeTodolist: (todolistID: string) => void;
     addTask: (todolistID: string, newTaskTitle: string) => void;
-    addTodolist: (todolistTitle: string) => void;
-    tasksStatusFilter: (todolistID: string, taskStatus: TaskStatusType) => void;
+    tasksFilter: (todolistID: string, tasksFilterValue: TasksFilterValueType) => void;
     taskStatusIsChecked: (todolistID: string, taskID: string, isDone: boolean) => void;
     onChangeTaskTitle: (todolistID: string, taskID: string, newTaskTitle: string) => void;
     onChangeTodolistTitle: (todolistID: string, newTodolistTitle: string) => void;
-    taskStatus: TaskStatusType;
+    tasksFilterValue: TasksFilterValueType;
 }
 export type TodolistType = {
     id: string;
     todolistTitle: string;
-    taskStatus: TaskStatusType;
+    tasksFilterValue: TasksFilterValueType;
 }
-export type TaskStatusType = 'all' | 'active' | 'completed';
+export type TasksFilterValueType = 'all' | 'active' | 'completed';
 
 export type TaskType = {
     id: string;
@@ -80,14 +79,14 @@ export const Todolist = (props: TodolistPropsType) => {
                 )}
             </ul>
             <div>
-                <button className={props.taskStatus === 'all' ? "active-filter" : ""}
-                        onClick={() => props.tasksStatusFilter(props.id, 'all')}>All
+                <button className={props.tasksFilterValue === 'all' ? "active-filter" : ""}
+                        onClick={() => props.tasksFilter(props.id, 'all')}>All
                 </button>
-                <button className={props.taskStatus === 'active' ? "active-filter" : ""}
-                        onClick={() => props.tasksStatusFilter(props.id, 'active')}>Active
+                <button className={props.tasksFilterValue === 'active' ? "active-filter" : ""}
+                        onClick={() => props.tasksFilter(props.id, 'active')}>Active
                 </button>
-                <button className={props.taskStatus === 'completed' ? "active-filter" : ""}
-                        onClick={() => props.tasksStatusFilter(props.id, 'completed')}>Completed
+                <button className={props.tasksFilterValue === 'completed' ? "active-filter" : ""}
+                        onClick={() => props.tasksFilter(props.id, 'completed')}>Completed
                 </button>
             </div>
         </div>

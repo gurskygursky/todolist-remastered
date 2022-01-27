@@ -85,11 +85,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                     ...task,
                     isDone: action.isDone
                 } : task)
-                // let task = state[action.id].find(task => task.id === action.taskID);
-                // if (task) {
-                //     task.isDone = action.isDone;
-                // }
-                // return {...state}
             }
         }
         case 'CHANGE_TASK_TITLE': {
@@ -100,11 +95,6 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                     taskTitle: action.taskTitle
                 } : task)
             }
-            // let task = state[action.id].find(task => task.id === action.taskID);
-            // if (task) {
-            //     task.taskTitle = action.taskTitle;
-            // }
-            // return {...state}
         }
         case 'ADD-TODOLIST': {
             const stateCopy = {...state};
@@ -118,7 +108,5 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         }
         default:
             return state;
-        // default:
-        //     throw new Error("I don't understand this type")
     }
 }

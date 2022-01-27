@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {TaskStatusType, TodolistType} from "../Todolist";
+import {TasksFilterValueType, TodolistType} from "../Todolist";
 
 export type RemoveTodolistActionType = {
     type: 'REMOVE-TODOLIST',
@@ -18,7 +18,7 @@ type ChangeTodolistTitleActionType = {
 type ChangeTodolistFilterActionType = {
     type: 'CHANGE-TODOLIST-FILTER',
     id: string,
-    changeTaskStatus: TaskStatusType,
+    changeTaskStatus: TasksFilterValueType,
 }
 type ActionsType = RemoveTodolistActionType
     | AddTodolistActionType
@@ -45,7 +45,7 @@ export const changeTodolistTitleAC = (todolistID: string, newTodolistTitle: stri
         todolistTitle: newTodolistTitle,
     }
 }
-export const changeTodolistFilterAC = (todolistID: string, changeTaskStatus: TaskStatusType): ChangeTodolistFilterActionType => {
+export const changeTodolistFilterAC = (todolistID: string, changeTaskStatus: TasksFilterValueType): ChangeTodolistFilterActionType => {
     return {
         type: 'CHANGE-TODOLIST-FILTER',
         id: todolistID,
@@ -64,7 +64,7 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState, acti
             return [...state, {
                 id: action.id,
                 todolistTitle: action.todolistTitle,
-                taskStatus: 'all',
+                tasksFilterValue: 'all',
             }];
         }
         case 'CHANGE-TODOLIST-TITLE': {
@@ -77,11 +77,12 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState, acti
         case 'CHANGE-TODOLIST-FILTER': {
             let todolist = state.find(td => td.id === action.id)
             if (todolist) {
-                todolist.taskStatus = action.changeTaskStatus;
+                todolist.tasksFilterValue = action.changeTaskStatus;
             }
             return [...state]
         }
-        default: return state;
+        default:
+            return state;
         // default:
         //     throw new Error("I don't understand this type")
     }
