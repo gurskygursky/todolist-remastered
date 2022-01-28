@@ -43,13 +43,7 @@ export const AddItemForm = (props: AddItemFormType) => {
                        onKeyPress={keyPressHandler}
                        className={error ? "error" : ""}
             />
-            {/*<input value={inputValue}*/}
-            {/*       onChange={onChangeInputValueHandler}*/}
-            {/*       onKeyPress={keyPressHandler}*/}
-            {/*       className={error ? "error" : ""}*/}
-            {/*/>*/}
             <Button variant={"contained"} color={"primary"} size={"medium"} onClick={addItem}>+</Button>
-            {/*<button onClick={addItem}>+</button>*/}
             {error && <div className={"error-message"}>{error}</div>}
         </div>
     )

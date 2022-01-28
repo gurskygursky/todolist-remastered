@@ -9,7 +9,7 @@ type TodolistPropsType = {
     id: string,
     todolistTitle: string;
     tasks: Array<TaskType>;
-    removeTask: (todolistID: string, taskID: string) => void;
+    removeTask: (todolistID: string, taskID: string) => void;/**/
     removeTodolist: (todolistID: string) => void;
     addTask: (todolistID: string, newTaskTitle: string) => void;
     tasksFilter: (todolistID: string, tasksFilterValue: TasksFilterValueType) => void;
@@ -54,7 +54,6 @@ export const Todolist = (props: TodolistPropsType) => {
             <IconButton onClick={removeTodolist}>
                 <Delete/>
             </IconButton>
-            {/*<button onClick={removeTodolist}>x</button>*/}
             <AddItemForm addItem={addTask}/>
             <ul>
                 {props.tasks.map(task => {
@@ -74,18 +73,13 @@ export const Todolist = (props: TodolistPropsType) => {
                                           checked={task.isDone}
                                           onChange={onChangeTaskIsChecked}
                                 />
-                                {/*<input type="checkbox"*/}
-                                {/*       checked={task.isDone}*/}
-                                {/*       onChange={onChangeTaskIsChecked}/>*/}
                                 <EditableSpan value={task.taskTitle}
                                               onChange={onChangeTaskTitleHandler}
                                 />
                                 <IconButton onClick={removeTodolist}>
                                     <Delete/>
                                 </IconButton>
-                                {/*<button onClick={removeTask}>x</button>*/}
                             </li>
-
                         )
                     }
                 )}
@@ -95,23 +89,14 @@ export const Todolist = (props: TodolistPropsType) => {
                         onClick={() => props.tasksFilter(props.id, 'all')}
                         color={props.tasksFilterValue === "all" ? "primary" : "default"}
                         variant={"outlined"}>All</Button>
-                {/*<button className={props.tasksFilterValue === 'all' ? "active-filter" : ""}*/}
-                {/*        onClick={() => props.tasksFilter(props.id, 'all')}>All*/}
-                {/*</button>*/}
                 <Button className={props.tasksFilterValue === 'active' ? "active-filter" : ""}
                         onClick={() => props.tasksFilter(props.id, 'active')}
                         color={props.tasksFilterValue === "active" ? "primary" : "default"}
                         variant={"outlined"}>Active</Button>
-                {/*<button className={props.tasksFilterValue === 'active' ? "active-filter" : ""}*/}
-                {/*        onClick={() => props.tasksFilter(props.id, 'active')}>Active*/}
-                {/*</button>*/}
                 <Button className={props.tasksFilterValue === 'completed' ? "active-filter" : ""}
                         onClick={() => props.tasksFilter(props.id, 'completed')}
                         color={props.tasksFilterValue === "completed" ? "primary" : "default"}
                         variant={"outlined"}>Completed</Button>
-                {/*<button className={props.tasksFilterValue === 'completed' ? "active-filter" : ""}*/}
-                {/*        onClick={() => props.tasksFilter(props.id, 'completed')}>Completed*/}
-                {/*</button>*/}
             </div>
         </div>
     );

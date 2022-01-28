@@ -35,10 +35,6 @@ export const EditableSpan = (props: EditableSpanType) => {
                          autoFocus={true}
                          onKeyPress={keyPressHandler}
             />
-            // ? <input value={inputValue}
-            //          onChange={onChangeInputHandler}
-            //          onBlur={deactivateEditMode}
-            //          autoFocus={true}/>
             : <span onDoubleClick={activateEditMode}>{props.value}</span>
     );
 }
