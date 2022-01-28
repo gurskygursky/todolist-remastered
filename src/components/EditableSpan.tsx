@@ -21,6 +21,11 @@ export const EditableSpan = (props: EditableSpanType) => {
     const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.currentTarget.value);
     }
+    const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            deactivateEditMode();
+        }
+    }
 
     return (
         editMode
@@ -28,6 +33,7 @@ export const EditableSpan = (props: EditableSpanType) => {
                          onChange={onChangeInputHandler}
                          onBlur={deactivateEditMode}
                          autoFocus={true}
+                         onKeyPress={keyPressHandler}
             />
             // ? <input value={inputValue}
             //          onChange={onChangeInputHandler}
