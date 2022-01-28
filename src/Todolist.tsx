@@ -76,7 +76,7 @@ export const Todolist = (props: TodolistPropsType) => {
                                 <EditableSpan value={task.taskTitle}
                                               onChange={onChangeTaskTitleHandler}
                                 />
-                                <IconButton onClick={removeTodolist}>
+                                <IconButton onClick={removeTask}>
                                     <Delete/>
                                 </IconButton>
                             </li>
