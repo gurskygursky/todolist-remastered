@@ -16,6 +16,8 @@ import {
 } from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {Header} from "./components/header/Header";
+import {Container, Grid} from "@material-ui/core";
 
 export function AppWithRedux() {
 
@@ -51,34 +53,46 @@ export function AppWithRedux() {
     }
 
     return (
-        <div className="App">
-            <AddItemForm addItem={addTodolist}/>
-            {
-                todolists.map(td => {
-                    let filteredTasksStatus = tasks[td.id];
-                    if (td.tasksFilterValue === 'active') {
-                        filteredTasksStatus = tasks[td.id].filter(task => !task.isDone);
-                    }
-                    if (td.tasksFilterValue === 'completed') {
-                        filteredTasksStatus = tasks[td.id].filter(task => task.isDone);
-                    }
-                    return (
-                        <Todolist key={td.id}
-                                  id={td.id}
-                                  todolistTitle={td.todolistTitle}
-                                  tasks={filteredTasksStatus}
-                                  removeTask={removeTask}
-                                  removeTodolist={removeTodolist}
-                                  tasksFilterValue={td.tasksFilterValue}
-                                  tasksFilter={tasksFilter}
-                                  addTask={addTask}
-                                  taskStatusIsChecked={taskStatusIsChecked}
-                                  onChangeTaskTitle={onChangeTaskTitle}
-                                  onChangeTodolistTitle={onChangeTodolistTitle}
-                        />
-                    )
-                })
-            }
+        <div className="app">
+                <Header/>
+            <div className={"content"}>
+                <Container fixed>
+                    <Grid container>
+                        <AddItemForm addItem={addTodolist}/>
+                    </Grid>
+                    <Grid container spacing={5}>
+                        {
+                            todolists.map(td => {
+                                let filteredTasksStatus = tasks[td.id];
+                                if (td.tasksFilterValue === 'active') {
+                                    filteredTasksStatus = tasks[td.id].filter(task => !task.isDone);
+                                }
+                                if (td.tasksFilterValue === 'completed') {
+                                    filteredTasksStatus = tasks[td.id].filter(task => task.isDone);
+                                }
+                                return (<Grid item>
+                                        <Todolist
+                                            key={td.id}
+                                            id={td.id}
+                                            todolistTitle={td.todolistTitle}
+                                            tasks={filteredTasksStatus}
+                                            removeTask={removeTask}
+                                            removeTodolist={removeTodolist}
+                                            tasksFilterValue={td.tasksFilterValue}
+                                            tasksFilter={tasksFilter}
+                                            addTask={addTask}
+                                            taskStatusIsChecked={taskStatusIsChecked}
+                                            onChangeTaskTitle={onChangeTaskTitle}
+                                            onChangeTodolistTitle={onChangeTodolistTitle}
+                                        />
+                                    </Grid>
+                                )
+                            })
+                        }
+                    </Grid>
+                </Container>
+
+            </div>
         </div>
     );
 }

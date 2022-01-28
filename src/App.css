@@ -1,9 +1,10 @@
-.App {
+.app {
     padding: 30px;
     display: flex;
+    flex-direction: column;
 }
 
-.App > div {
+.app > div {
     margin-right: 50px;
 }
 
