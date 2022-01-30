@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import './App.css';
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
@@ -34,16 +34,27 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>;
 }
 
-export const Todolist = (props: TodolistPropsType) => {
-
-    const addTask = (title: string) => {
-        props.addTask(props.id, title)
-    }
+export const Todolist = React.memo((props: TodolistPropsType) => {
+    console.log("Todolist is called")
+    // const addTask = (title: string) => {
+    //     props.addTask(props.id, title)
+    // }
+    const addTask = useCallback((title: string) => {
+        props.addTask(props.id, title);
+    }, []);
     const removeTodolist = () => {
         props.removeTodolist(props.id);
     }
     const onChangeTodolistTitleHandler = (newTodolistTitle: string) => {
         props.onChangeTodolistTitle(props.id, newTodolistTitle)
+    }
+
+    let tasksForTodolist = props.tasks;
+    if (props.tasksFilterValue === 'active') {
+        tasksForTodolist = props.tasks.filter(task => !task.isDone);
+    }
+    if (props.tasksFilterValue === 'completed') {
+        tasksForTodolist = props.tasks.filter(task => task.isDone);
     }
 
     return (
@@ -56,7 +67,7 @@ export const Todolist = (props: TodolistPropsType) => {
             </IconButton>
             <AddItemForm addItem={addTask}/>
             <ul>
-                {props.tasks.map(task => {
+                {tasksForTodolist.map(task => {
                         const removeTask = () => {
                             props.removeTask(props.id, task.id)
                         }
@@ -100,4 +111,4 @@ export const Todolist = (props: TodolistPropsType) => {
             </div>
         </div>
     );
-}
+});

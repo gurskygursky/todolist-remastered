@@ -6,16 +6,21 @@ type AddItemFormType = {
     addItem: (title: string) => void;
 }
 export const AddItemForm = (props: AddItemFormType) => {
-
+    console.log("AddItemForm is called");
     let [inputValue, setInputValue] = useState<string>('');
     let [error, setError] = useState<string | null>(null);
 
     const onChangeInputValueHandler = (event: ChangeEvent<HTMLInputElement>) => {
-        setError(null);
+        if (error !== null) {
+            setError(null);
+        }
         setInputValue(event.currentTarget.value);
     }
 
     const keyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (error !== null) {
+            setError(null);
+        }
         if (event.key === 'Enter') {
             if (inputValue.trim() !== '') {
                 props.addItem(inputValue.trim());
