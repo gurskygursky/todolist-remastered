@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button, IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@material-ui/core";
 import {AddBox} from "@material-ui/icons";
 
 type AddItemFormType = {
@@ -50,13 +50,10 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
                        error={!!error}
                        label={"Title"}
                        helperText={error}
-                       // className={error ? "error" : ""}
             />
             <IconButton color={"primary"} onClick={addItem}>
                 <AddBox/>
             </IconButton>
-            {/*<Button variant={"contained"} color={"primary"} size={"medium"} onClick={addItem}>+</Button>*/}
-            {/*{error && <div className={"error-message"}>{error}</div>}*/}
         </div>
     )
 })
