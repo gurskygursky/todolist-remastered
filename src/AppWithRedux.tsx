@@ -20,6 +20,7 @@ import {Header} from "./components/header/Header";
 import {Container, Grid} from "@material-ui/core";
 
 export function AppWithRedux() {
+    console.log("App is called");
 
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists);
@@ -88,6 +89,13 @@ export function AppWithRedux() {
                         {
                             todolists.map(td => {
                                 let tasksForTodolist = tasks[td.id];
+
+                                // if (td.tasksFilterValue === 'active') {
+                                //     tasksForTodolist = tasks[td.id].filter(task => !task.isDone);
+                                // }
+                                // if (td.tasksFilterValue === 'completed') {
+                                //     tasksForTodolist = tasks[td.id].filter(task => task.isDone);
+                                // }
 
                                 return (<Grid item>
                                         <Todolist
