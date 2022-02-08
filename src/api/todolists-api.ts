@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const settings = {
     withCredentials: true,
@@ -9,19 +9,15 @@ const settings = {
 
 export const todolistAPI = {
     getTodolists() {
-        const promise = axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/`, settings)
-        return promise
+        return axios.get(`https://social-network.samuraijs.com/api/1.1/todo-lists/`, settings);
     },
     createTodolist(title: string) {
-        const promise = axios.post(`https://social-network.samuraijs.com/api/1.1/todo-lists/`, {title: title}, settings)
-        return promise
+        return axios.post(`https://social-network.samuraijs.com/api/1.1/todo-lists/`, {title: title}, settings);
     },
     updateTodolist(todolistId: string, title: string) {
-        const promise = axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, {title: title}, settings)
-        return promise
+        return axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, {title: title}, settings);
     },
     deleteTodolist(todolistId: string) {
-        const promise = axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, settings)
-        return promise
+        return axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`, settings);
     },
 }
