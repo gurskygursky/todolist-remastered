@@ -53,11 +53,11 @@ export const UpdateTodolistTitle = () => {
 }
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null);
-    const todolistId = '96b2ef0c-f890-45c5-89a5-180ef325b35f';
+    const todolistId = '1e936a74-7f36-42af-b5d6-73ddaaeac6fb';
     useEffect(() => {
         todolistAPI.getTasks(todolistId)
             .then((response) => {
-                setState(response.data)
+                setState(response.data.items[0].title)
             })
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
@@ -66,8 +66,8 @@ export const GetTasks = () => {
 }
 export const CreateTask = () => {
     const [state, setState] = useState<any>(null);
-    const todolistId = '96b2ef0c-f890-45c5-89a5-180ef325b35f';
-    const title = 'task2';
+    const todolistId = '1e936a74-7f36-42af-b5d6-73ddaaeac6fb';
+    const title = 'task7777';
     useEffect(() => {
         todolistAPI.createTask(todolistId, title)
             .then((response) => {
@@ -80,8 +80,8 @@ export const CreateTask = () => {
 }
 export const UpdateTaskTitle = () => {
     const [state, setState] = useState<any>(null);
-    const todolistId = '96b2ef0c-f890-45c5-89a5-180ef325b35f';
-    const taskId = 'f13defd0-6e93-44c6-b3f7-5c20e44c3d3c'
+    const todolistId = '1e936a74-7f36-42af-b5d6-73ddaaeac6fb';
+    const taskId = '40b89e4e-9a2d-4078-8edc-69a3ff188f07'
     const title = 'task222';
     useEffect(() => {
         todolistAPI.updateTaskTitle(todolistId, taskId, title)
@@ -95,8 +95,8 @@ export const UpdateTaskTitle = () => {
 }
 export const DeleteTask = () => {
     const [state, setState] = useState<any>(null);
-    const todolistId = '96b2ef0c-f890-45c5-89a5-180ef325b35f';
-    const taskId = 'f13defd0-6e93-44c6-b3f7-5c20e44c3d3c'
+    const todolistId = '1e936a74-7f36-42af-b5d6-73ddaaeac6fb';
+    const taskId = '40b89e4e-9a2d-4078-8edc-69a3ff188f07'
     useEffect(() => {
         todolistAPI.deleteTask(todolistId, taskId)
             .then((response) => {

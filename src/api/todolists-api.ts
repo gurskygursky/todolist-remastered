@@ -19,43 +19,34 @@ type TodolistType = {
     title: string,
 }
 type ResponseType<D = {}> = {
-    data: {},
+    data: D,
     fieldsErrors: string[],
     messages: string[],
     resultCode: number,
 }
+
 type TaskType = {
+    addedDate: string,
+    deadline: string,
     description: string,
-    title: string,
-    completed: boolean,
-    status: number,
+    id: string,
+    order: number,
     priority: number,
     startDate: string,
-    deadline: string,
-    id: string,
+    status: number,
+    title: string,
     todoListId: string,
-    order: number,
-    addedDate: string,
 }
 type GetTasksResponseType = {
     items: TaskType[],
     totalCount: number,
     error: string,
 }
-type CreateTaskResponseType = {
+type TasksResponseType<T = {}> = {
+    data: T,
     resultCode: number,
     messages: string[],
-    data: {},
-}
-type UpdateTaskResponseType = {
-    resultCode: number,
-    messages: string[],
-    data: {},
-}
-type DeleteTaskResponseType = {
-    resultCode: number,
-    messages: string[],
-    data: {},
+    fieldsErrors: string[],
 }
 
 
@@ -76,12 +67,12 @@ export const todolistAPI = {
         return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks`);
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<CreateTaskResponseType>(`/todo-lists/${todolistId}/tasks`, {title: title});
+        return instance.post<TasksResponseType<{item: TaskType}>>(`/todo-lists/${todolistId}/tasks`, {title: title});
     },
     updateTaskTitle(todolistId: string, taskId: string, title: string) {
-        return instance.put<UpdateTaskResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`, {title: title});
+        return instance.put<TasksResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`, {title: title});
     },
     deleteTask(todolistId: string, taskId: string) {
-        return instance.delete<DeleteTaskResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`);
+        return instance.delete<TasksResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`);
     },
 }
