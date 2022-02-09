@@ -51,3 +51,59 @@ export const UpdateTodolistTitle = () => {
     }, []);
     return <div> {JSON.stringify(state)}</div>
 }
+export const GetTasks = () => {
+    const [state, setState] = useState<any>(null);
+    const todolistId = '96b2ef0c-f890-45c5-89a5-180ef325b35f';
+    useEffect(() => {
+        todolistAPI.getTasks(todolistId)
+            .then((response) => {
+                setState(response.data)
+            })
+        // здесь мы будем делать запрос и ответ закидывать в стейт.
+        // который в виде строки будем отображать в div-ке
+    }, []);
+    return <div> {JSON.stringify(state)}</div>
+}
+export const CreateTask = () => {
+    const [state, setState] = useState<any>(null);
+    const todolistId = '96b2ef0c-f890-45c5-89a5-180ef325b35f';
+    const title = 'task2';
+    useEffect(() => {
+        todolistAPI.createTask(todolistId, title)
+            .then((response) => {
+                setState(response.data)
+            })
+        // здесь мы будем делать запрос и ответ закидывать в стейт.
+        // который в виде строки будем отображать в div-ке
+    }, []);
+    return <div> {JSON.stringify(state)}</div>
+}
+export const UpdateTaskTitle = () => {
+    const [state, setState] = useState<any>(null);
+    const todolistId = '96b2ef0c-f890-45c5-89a5-180ef325b35f';
+    const taskId = 'f13defd0-6e93-44c6-b3f7-5c20e44c3d3c'
+    const title = 'task222';
+    useEffect(() => {
+        todolistAPI.updateTaskTitle(todolistId, taskId, title)
+            .then((response) => {
+                setState(response.data)
+            })
+        // здесь мы будем делать запрос и ответ закидывать в стейт.
+        // который в виде строки будем отображать в div-ке
+    }, []);
+    return <div> {JSON.stringify(state)}</div>
+}
+export const DeleteTask = () => {
+    const [state, setState] = useState<any>(null);
+    const todolistId = '96b2ef0c-f890-45c5-89a5-180ef325b35f';
+    const taskId = 'f13defd0-6e93-44c6-b3f7-5c20e44c3d3c'
+    useEffect(() => {
+        todolistAPI.deleteTask(todolistId, taskId)
+            .then((response) => {
+                setState(response.data)
+            })
+        // здесь мы будем делать запрос и ответ закидывать в стейт.
+        // который в виде строки будем отображать в div-ке
+    }, []);
+    return <div> {JSON.stringify(state)}</div>
+}
