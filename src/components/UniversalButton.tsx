@@ -1,5 +1,5 @@
 import React from "react";
-import {TaskType} from "../Todolist";
+import {TaskType} from "../api/todolists-api";
 
 type UniversalButtonType = {
     removeTask: (id: string) => void,

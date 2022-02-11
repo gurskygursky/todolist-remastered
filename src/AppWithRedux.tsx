@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {TasksStateType, TasksFilterValueType, Todolist} from "./Todolist";
+import {TasksStateType, Todolist} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm";
 import {
     addTodolistAC,
@@ -20,7 +20,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {Header} from "./components/header/Header";
 import {Container, Grid} from "@material-ui/core";
-import {TaskStatuses} from "./api/todolists-api";
+import {TasksFilterValueType, TaskStatuses} from "./api/todolists-api";
 
 export function AppWithRedux() {
     console.log("App is called");
@@ -50,7 +50,7 @@ export function AppWithRedux() {
         dispatch(changeTodolistFilterAC(todolistID, tasksFilter));
     }, [dispatch]);
     const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
-        dispatch(changeTaskStatusAC(todolistID, taskID, status = TaskStatuses.Completed));
+        dispatch(changeTaskStatusAC(todolistID, taskID, status));
     }, [dispatch]);
     const onChangeTaskTitle = useCallback((todolistID: string, taskID: string, newTaskTitle: string) => {
         dispatch(changeTaskTitleAC(todolistID, taskID, newTaskTitle));
