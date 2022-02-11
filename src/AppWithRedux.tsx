@@ -5,8 +5,8 @@ import {AddItemForm} from "./components/AddItemForm";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
-    removeTodolistAC, setTodolistsAC,
+    changeTodolistTitleAC, fetchTodolistsThunkCreator,
+    removeTodolistAC,
 } from "./state/todolists-reducer";
 import {
     addTaskAC,
@@ -18,16 +18,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {Header} from "./components/header/Header";
 import {Container, Grid} from "@material-ui/core";
-import {todolistAPI} from "./api/todolists-api";
 
 export function AppWithRedux() {
     console.log("App is called");
 
     useEffect(() => {
-        todolistAPI.getTodolists()
-            .then((response) => {
-                dispatch(setTodolistsAC(response.data))
-            })
+        dispatch(fetchTodolistsThunkCreator())
     }, []);
 
     const dispatch = useDispatch();
@@ -62,7 +58,7 @@ export function AppWithRedux() {
 
     return (
         <div className="app">
-                <Header/>
+            <Header/>
             <div className={"content"}>
                 <Container fixed>
                     <Grid container>
