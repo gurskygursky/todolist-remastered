@@ -1,7 +1,8 @@
 import {v1} from "uuid";
 import {TasksStateType} from "../Todolist";
 import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from "./todolists-reducer";
-import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolists-api";
+import {TaskPriorities, TaskStatuses, TaskType, todolistAPI} from "../api/todolists-api";
+import { Dispatch } from "redux";
 
 type RemoveTaskActionType = {
     type: 'REMOVE_TASK',
@@ -25,13 +26,20 @@ type ChangeTaskTitleActionType = {
     taskID: string,
     taskTitle: string,
 }
+export type SetTasksActionType = {
+    type: 'SET-TASKS'
+    tasks: Array<TaskType>
+    todolistId: string
+}
+
 type ActionsType = RemoveTaskActionType
     | AddTaskActionType
     | ChangeTaskStatusActionType
     | ChangeTaskTitleActionType
     | AddTodolistActionType
     | RemoveTodolistActionType
-    | SetTodolistsActionType;
+    | SetTodolistsActionType
+    | SetTasksActionType;
 
 export const removeTaskAC = (todolistID: string, taskID: string): RemoveTaskActionType => {
     return {
@@ -63,6 +71,21 @@ export const changeTaskTitleAC = (todolistID: string, taskID: string, taskTitle:
         taskTitle,
     }
 }
+export const setTasksAC = (tasks: Array<TaskType>, todolistId: string): SetTasksActionType => {
+    return {type: 'SET-TASKS', tasks, todolistId}
+}
+
+export const fetchTasksTC = (todolistId: string) => {
+    return (dispatch: Dispatch) => {
+        todolistAPI.getTasks(todolistId)
+            .then((res) => {
+                const tasks = res.data.items
+                const action = setTasksAC(tasks, todolistId)
+                dispatch(action)
+            })
+    }
+}
+
 
 const initialState: TasksStateType = {};
 
@@ -126,7 +149,12 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             })
             return stateCopy;
         }
-        
+        case 'SET-TASKS': {
+            const stateCopy = {...state}
+            stateCopy[action.todolistId] = action.tasks
+            return stateCopy
+        }
+
         default:
             return state;
     }

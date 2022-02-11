@@ -13,7 +13,7 @@ import {
 import {
     addTaskAC,
     changeTaskStatusAC,
-    changeTaskTitleAC,
+    changeTaskTitleAC, fetchTasksTC,
     removeTaskAC
 } from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
