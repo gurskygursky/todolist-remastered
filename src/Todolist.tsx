@@ -5,6 +5,7 @@ import {EditableSpan} from "./components/EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Tasks} from "./Tasks";
+import {TasksFilterValueType, TaskStatuses, TaskType} from "./api/todolists-api";
 
 type TodolistPropsType = {
     id: string,
@@ -14,23 +15,23 @@ type TodolistPropsType = {
     removeTodolist: (todolistID: string) => void;
     addTask: (todolistID: string, newTaskTitle: string) => void;
     tasksFilter: (todolistID: string, tasksFilterValue: TasksFilterValueType) => void;
-    taskStatusIsChecked: (todolistID: string, taskID: string, isDone: boolean) => void;
+    taskStatusIsChecked: (todolistID: string, taskID: string, status: TaskStatuses) => void;
     onChangeTaskTitle: (todolistID: string, taskID: string, newTaskTitle: string) => void;
     onChangeTodolistTitle: (todolistID: string, newTodolistTitle: string) => void;
     tasksFilterValue: TasksFilterValueType;
 }
-export type TodolistType = {
-    id: string;
-    todolistTitle: string;
-    tasksFilterValue: TasksFilterValueType;
-}
-export type TasksFilterValueType = 'all' | 'active' | 'completed';
+// export type TodolistType = {
+//     id: string;
+//     todolistTitle: string;
+//     tasksFilterValue: TasksFilterValueType;
+// }
+// export type TasksFilterValueType = 'all' | 'active' | 'completed';
 
-export type TaskType = {
-    id: string;
-    taskTitle: string;
-    isDone: boolean;
-}
+// export type TaskType = {
+//     id: string;
+//     taskTitle: string;
+//     isDone: boolean;
+// }
 export type TasksStateType = {
     [key: string]: Array<TaskType>;
 }
@@ -49,10 +50,10 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
 
     let tasksForTodolist = props.tasks;
     if (props.tasksFilterValue === 'active') {
-        tasksForTodolist = props.tasks.filter(task => !task.isDone);
+        tasksForTodolist = props.tasks.filter(task => task.status = TaskStatuses.InProgress);
     }
     if (props.tasksFilterValue === 'completed') {
-        tasksForTodolist = props.tasks.filter(task => task.isDone);
+        tasksForTodolist = props.tasks.filter(task => task.status = TaskStatuses.Completed);
     }
 
     return (
