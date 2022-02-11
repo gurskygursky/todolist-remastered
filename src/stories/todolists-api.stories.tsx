@@ -57,7 +57,7 @@ export const GetTasks = () => {
     useEffect(() => {
         todolistAPI.getTasks(todolistId)
             .then((response) => {
-                setState(response.data.items[0].title)
+                setState(response.data)
             })
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
@@ -81,8 +81,8 @@ export const CreateTask = () => {
 export const UpdateTaskTitle = () => {
     const [state, setState] = useState<any>(null);
     const todolistId = '1e936a74-7f36-42af-b5d6-73ddaaeac6fb';
-    const taskId = '40b89e4e-9a2d-4078-8edc-69a3ff188f07'
-    const title = 'task222';
+    const taskId = '0680b1cb-9dae-4540-9ab4-53db7c90c7d8'
+    const title = 'YOYOYO';
     useEffect(() => {
         todolistAPI.updateTaskTitle(todolistId, taskId, title)
             .then((response) => {
