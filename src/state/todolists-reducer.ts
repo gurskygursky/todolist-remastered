@@ -9,8 +9,7 @@ export type RemoveTodolistActionType = {
 }
 export type AddTodolistActionType = {
     type: 'ADD-TODOLIST',
-    id: string,
-    todolistTitle: string,
+    todolist: TodolistType,
 }
 type ChangeTodolistTitleActionType = {
     type: 'CHANGE-TODOLIST-TITLE',
@@ -34,11 +33,10 @@ export const removeTodolistAC = (todolistID: string): RemoveTodolistActionType =
         id: todolistID,
     }
 }
-export const addTodolistAC = (newTodolistTitle: string): AddTodolistActionType => {
+export const addTodolistAC = (todolist: TodolistType): AddTodolistActionType => {
     return {
         type: 'ADD-TODOLIST',
-        id: v1(),
-        todolistTitle: newTodolistTitle,
+        todolist,
     }
 }
 export const changeTodolistTitleAC = (todolistID: string, newTodolistTitle: string): ChangeTodolistTitleActionType => {
@@ -85,6 +83,14 @@ export const removeTodolistTC = (todolistId: string) => {
             })
     }
 }
+export const addTodolistTC = (todolistTitle: string) => {
+    return (dispatch: Dispatch) => {
+        todolistAPI.createTodolist(todolistTitle)
+            .then((response) => {
+                dispatch(addTodolistAC(response.data.data.item))
+            })
+    }
+}
 export type TodolistDomainType = TodolistType & {
     tasksFilterValue: TasksFilterValueType
 }
@@ -96,13 +102,15 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.filter(tl => tl.id !== action.id)
         }
         case 'ADD-TODOLIST': {
-            return [...state, {
-                id: action.id,
-                title: action.todolistTitle,
-                tasksFilterValue: 'all',
-                addedDate: '',
-                order: 0,
-            }];
+            const newTodolist: TodolistDomainType = {...action.todolist, tasksFilterValue: "all"}
+            return [...state, newTodolist];
+            // return [...state, {
+                // id: action.todolist.id,
+                // title: action.todolist.title,
+                // tasksFilterValue: 'all',
+                // addedDate: '',
+                // order: 0,
+            // }];
         }
         case 'CHANGE-TODOLIST-TITLE': {
             let todolist = state.find(td => td.id === action.id)

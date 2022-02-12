@@ -3,7 +3,7 @@ import './App.css';
 import {TasksStateType, Todolist} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm";
 import {
-    addTodolistAC,
+    addTodolistAC, addTodolistTC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
     fetchTodolistsThunkCreator,
@@ -20,7 +20,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {Header} from "./components/header/Header";
 import {Container, Grid} from "@material-ui/core";
-import {TasksFilterValueType, TaskStatuses} from "./api/todolists-api";
+import {TasksFilterValueType, TaskStatuses, TodolistType} from "./api/todolists-api";
 
 export function AppWithRedux() {
     console.log("App is called");
@@ -39,8 +39,11 @@ export function AppWithRedux() {
     const addTask = useCallback((todolistID: string, newTaskTitle: string) => {
         dispatch(addTaskTC(todolistID, newTaskTitle));
     }, [dispatch]);
+    // const addTodolist = useCallback((todolistTitle: string) => {
+    //     dispatch(addTodolistAC(todolistTitle));
+    // }, [dispatch]);
     const addTodolist = useCallback((todolistTitle: string) => {
-        dispatch(addTodolistAC(todolistTitle));
+        dispatch(addTodolistTC(todolistTitle));
     }, [dispatch]);
     // const removeTask = useCallback((todolistID: string, taskID: string) => {
     //     const action = removeTaskAC(todolistID, taskID);
