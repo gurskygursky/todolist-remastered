@@ -77,6 +77,14 @@ export const fetchTodolistsThunkCreator = () => {
             })
     }
 }
+export const removeTodolistTC = (todolistId: string) => {
+    return (dispatch: Dispatch) => {
+        todolistAPI.deleteTodolist(todolistId)
+            .then(() => {
+                dispatch(removeTodolistAC(todolistId))
+            })
+    }
+}
 export type TodolistDomainType = TodolistType & {
     tasksFilterValue: TasksFilterValueType
 }

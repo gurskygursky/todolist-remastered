@@ -85,6 +85,15 @@ export const fetchTasksTC = (todolistId: string) => {
             })
     }
 }
+export const removeTaskTC = (todolistId: string, taskId: string) => {
+    return (dispatch: Dispatch) => {
+        todolistAPI.deleteTask(todolistId, taskId)
+            .then(() => {
+                const action = removeTaskAC(todolistId, taskId)
+                dispatch(action)
+            })
+    }
+}
 
 
 const initialState: TasksStateType = {};
