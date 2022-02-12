@@ -21,9 +21,10 @@ type ChangeTaskStatusActionType = {
 }
 type ChangeTaskTitleActionType = {
     type: 'CHANGE_TASK_TITLE',
-    id: string,
-    taskID: string,
-    taskTitle: string,
+    task: TaskType,
+    // id: string,
+    // taskID: string,
+    // taskTitle: string,
 }
 export type SetTasksActionType = {
     type: 'SET-TASKS'
@@ -61,12 +62,13 @@ export const changeTaskStatusAC = (todolistID: string, taskID: string, status: T
         status,
     }
 }
-export const changeTaskTitleAC = (todolistID: string, taskID: string, taskTitle: string): ChangeTaskTitleActionType => {
+export const changeTaskTitleAC = (task: TaskType): ChangeTaskTitleActionType => {
     return {
         type: 'CHANGE_TASK_TITLE',
-        id: todolistID,
-        taskID,
-        taskTitle,
+        task,
+        // id: todolistID,
+        // taskID,
+        // taskTitle,
     }
 }
 export const setTasksAC = (tasks: Array<TaskType>, todolistId: string): SetTasksActionType => {
@@ -97,6 +99,15 @@ export const addTaskTC = (todolistID: string, title: string) => {
         todolistAPI.createTask(todolistID, title)
             .then((response) => {
                 const action = addTaskAC(response.data.data.item)
+                dispatch(action)
+            })
+    }
+}
+export const changeTaskTitleTC = (todolistID: string, taskID: string, title: string) => {
+    return (dispatch: Dispatch) => {
+        todolistAPI.updateTaskTitle(todolistID, taskID, title)
+            .then((response) => {
+                const action = changeTaskTitleAC(response.data.data.item)
                 dispatch(action)
             })
     }
@@ -143,9 +154,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'CHANGE_TASK_TITLE': {
             return {
                 ...state,
-                [action.id]: state[action.id].map(task => task.id === action.taskID ? {
+                [action.task.todoListId]: state[action.task.todoListId].map(task => task.id === action.task.id ? {
                     ...task,
-                    taskTitle: action.taskTitle
+                    title: action.task.title
                 } : task)
             }
         }
