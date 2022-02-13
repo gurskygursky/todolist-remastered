@@ -12,7 +12,7 @@ import {
 } from "./state/todolists-reducer";
 import {
     addTaskAC, addTaskTC,
-    changeTaskStatusAC,
+    changeTaskStatusAC, changeTaskStatusTC,
     changeTaskTitleAC, changeTaskTitleTC,
     removeTaskTC
 } from "./state/tasks-reducer";
@@ -20,7 +20,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {Header} from "./components/header/Header";
 import {Container, Grid} from "@material-ui/core";
-import {TasksFilterValueType, TaskStatuses, TodolistType} from "./api/todolists-api";
+import {TasksFilterValueType, TaskStatuses, TaskType, TodolistType, UpdateTaskType} from "./api/todolists-api";
 
 export function AppWithRedux() {
     console.log("App is called");
@@ -62,8 +62,11 @@ export function AppWithRedux() {
     const tasksFilter = useCallback((todolistID: string, tasksFilter: TasksFilterValueType) => {
         dispatch(changeTodolistFilterAC(todolistID, tasksFilter));
     }, [dispatch]);
+    // const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
+    //     dispatch(changeTaskStatusAC(todolistID, taskID, status));
+    // }, [dispatch]);
     const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
-        dispatch(changeTaskStatusAC(todolistID, taskID, status));
+        dispatch(changeTaskStatusTC(todolistID, taskID, status));
     }, [dispatch]);
     // const onChangeTaskTitle = useCallback((todolistID: string, taskID: string, newTaskTitle: string) => {
     //     dispatch(changeTaskTitleAC(todolistID, taskID, newTaskTitle));
