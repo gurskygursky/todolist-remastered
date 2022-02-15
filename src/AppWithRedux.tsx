@@ -65,9 +65,9 @@ export function AppWithRedux() {
     // const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
     //     dispatch(changeTaskStatusAC(todolistID, taskID, status));
     // }, [dispatch]);
-    const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
-        dispatch(changeTaskStatusTC(todolistID, taskID, status));
-    }, [dispatch]);
+    const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses ) => {
+        dispatch(changeTaskStatusTC(todolistID, taskID, status ));
+    }, []);
     // const onChangeTaskTitle = useCallback((todolistID: string, taskID: string, newTaskTitle: string) => {
     //     dispatch(changeTaskTitleAC(todolistID, taskID, newTaskTitle));
     // }, [dispatch]);
