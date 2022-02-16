@@ -3,25 +3,19 @@ import './App.css';
 import {TasksStateType, Todolist} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm";
 import {
-    addTodolistAC, addTodolistTC,
+    addTodolistTC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC, changeTodolistTitleTC,
-    // fetchTodolistsThunkCreator,
+    changeTodolistTitleTC,
     getTodolistsTC,
-    removeTodolistAC, removeTodolistTC,
+    removeTodolistTC,
     TodolistDomainType,
 } from "./state/todolists-reducer";
-import {
-    addTaskAC, addTaskTC,
-    // changeTaskStatusAC, changeTaskStatusTC,
-    // changeTaskTitleAC, changeTaskTitleTC,
-    removeTaskTC, UpdateTaskDomainType, updateTaskTC
-} from "./state/tasks-reducer";
+import {addTaskTC, removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {Header} from "./components/header/Header";
 import {Container, Grid} from "@material-ui/core";
-import {TasksFilterValueType, TaskStatuses, TaskType, TodolistType, UpdateTaskType} from "./api/todolists-api";
+import {TasksFilterValueType, TaskStatuses} from "./api/todolists-api";
 
 export function AppWithRedux() {
     console.log("App is called");
@@ -34,50 +28,29 @@ export function AppWithRedux() {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
 
-    // const addTask = useCallback((todolistID: string, newTaskTitle: string) => {
-    //     dispatch(addTaskAC(todolistID, newTaskTitle));
-    // }, [dispatch]);
     const addTask = useCallback((todolistID: string, newTaskTitle: string) => {
         dispatch(addTaskTC(todolistID, newTaskTitle));
     }, [dispatch]);
-    // const addTodolist = useCallback((todolistTitle: string) => {
-    //     dispatch(addTodolistAC(todolistTitle));
-    // }, [dispatch]);
+
     const addTodolist = useCallback((todolistTitle: string) => {
         dispatch(addTodolistTC(todolistTitle));
     }, [dispatch]);
-    // const removeTask = useCallback((todolistID: string, taskID: string) => {
-    //     const action = removeTaskAC(todolistID, taskID);
-    //     dispatch(action);
-    // }, [dispatch]);
     const removeTask = useCallback((todolistID: string, taskID: string) => {
         const thunk = removeTaskTC(todolistID, taskID);
         dispatch(thunk);
     }, [dispatch]);
-    // const removeTodolist = useCallback((todolistID: string) => {
-    //     dispatch(removeTodolistAC(todolistID));
-    // }, [dispatch]);
     const removeTodolist = useCallback((todolistID: string) => {
         dispatch(removeTodolistTC(todolistID));
     }, [dispatch]);
     const tasksFilter = useCallback((todolistID: string, tasksFilter: TasksFilterValueType) => {
         dispatch(changeTodolistFilterAC(todolistID, tasksFilter));
     }, [dispatch]);
-    // const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
-    //     dispatch(changeTaskStatusAC(todolistID, taskID, status));
-    // }, [dispatch]);
     const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
         dispatch(updateTaskTC(todolistID, taskID, {status}));
-    }, []);
-    // const onChangeTaskTitle = useCallback((todolistID: string, taskID: string, newTaskTitle: string) => {
-    //     dispatch(changeTaskTitleAC(todolistID, taskID, newTaskTitle));
-    // }, [dispatch]);
+    }, [dispatch]);
     const onChangeTaskTitle = useCallback((todolistID: string, taskID: string, newTaskTitle: string) => {
         dispatch(updateTaskTC(todolistID, taskID, {title: newTaskTitle}));
     }, [dispatch]);
-    // const onChangeTodolistTitle = useCallback((todolistID: string, newTodolistTitle: string) => {
-    //     dispatch(changeTodolistTitleAC(todolistID, newTodolistTitle));
-    // }, [dispatch]);
     const onChangeTodolistTitle = useCallback((todolistID: string, newTodolistTitle: string) => {
         dispatch(changeTodolistTitleTC(todolistID, newTodolistTitle));
     }, [dispatch]);
