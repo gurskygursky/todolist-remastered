@@ -26,6 +26,7 @@ export const TodolistList = () => {
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
+    const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
 
     const addTask = useCallback((todolistID: string, newTaskTitle: string) => {
         dispatch(addTaskTC(todolistID, newTaskTitle));
@@ -57,6 +58,7 @@ export const TodolistList = () => {
     return (
         <>
             <div className={"content"}>
+                {<span>{error}</span>}
                 <Container fixed>
                     <Grid container>
                         <AddItemForm addItem={addTodolist}/>

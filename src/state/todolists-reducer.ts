@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {TasksFilterValueType, todolistAPI, TodolistType} from "../api/todolists-api";
+import {setStatusAC, setStatusActionType} from "./app-reducer";
 
 export const removeTodolistAC = (todolistID: string) => ({
     type: 'REMOVE-TODOLIST',
@@ -22,10 +23,12 @@ export const changeTodolistFilterAC = (todolistID: string, changeTaskStatus: Tas
 export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET-TODOLISTS', todolists} as const)
 
 export const getTodolistsTC = () => {
-    return (dispatch: Dispatch) => {
+    return (dispatch: Dispatch<ActionsType | setStatusActionType>) => {
+        dispatch(setStatusAC('loading'));
         todolistAPI.getTodolists()
             .then((res) => {
-                dispatch(setTodolistsAC(res.data))
+                dispatch(setTodolistsAC(res.data));
+                dispatch(setStatusAC('succeeded'));
             })
     }
 }
