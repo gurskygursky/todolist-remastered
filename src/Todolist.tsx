@@ -6,7 +6,7 @@ import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Tasks} from "./Tasks";
 import {TasksFilterValueType, TaskStatuses, TaskType} from "./api/todolists-api";
-import {fetchTodolistsThunkCreator} from "./state/todolists-reducer";
+// import {fetchTodolistsThunkCreator} from "./state/todolists-reducer";
 import {
     // fetchTasksTC,
     getTasksTC} from "./state/tasks-reducer";

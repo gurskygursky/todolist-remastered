@@ -6,7 +6,8 @@ import {
     addTodolistAC, addTodolistTC,
     changeTodolistFilterAC,
     changeTodolistTitleAC, changeTodolistTitleTC,
-    fetchTodolistsThunkCreator,
+    // fetchTodolistsThunkCreator,
+    getTodolistsTC,
     removeTodolistAC, removeTodolistTC,
     TodolistDomainType,
 } from "./state/todolists-reducer";
@@ -26,7 +27,7 @@ export function AppWithRedux() {
     console.log("App is called");
 
     useEffect(() => {
-        dispatch(fetchTodolistsThunkCreator());
+        dispatch(getTodolistsTC());
     }, []);
 
     const dispatch = useDispatch();
