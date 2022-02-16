@@ -7,7 +7,9 @@ import {Delete} from "@material-ui/icons";
 import {Tasks} from "./Tasks";
 import {TasksFilterValueType, TaskStatuses, TaskType} from "./api/todolists-api";
 import {fetchTodolistsThunkCreator} from "./state/todolists-reducer";
-import {fetchTasksTC} from "./state/tasks-reducer";
+import {
+    // fetchTasksTC,
+    getTasksTC} from "./state/tasks-reducer";
 import {useDispatch} from "react-redux";
 
 type TodolistPropsType = {
@@ -44,7 +46,7 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchTasksTC(props.id))
+        dispatch(getTasksTC(props.id))
     }, []);
 
     console.log("Todolist is called")
