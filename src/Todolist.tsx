@@ -6,17 +6,14 @@ import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Tasks} from "./Tasks";
 import {TasksFilterValueType, TaskStatuses, TaskType} from "./api/todolists-api";
-// import {fetchTodolistsThunkCreator} from "./state/todolists-reducer";
-import {
-    // fetchTasksTC,
-    getTasksTC} from "./state/tasks-reducer";
+import {getTasksTC} from "./state/tasks-reducer";
 import {useDispatch} from "react-redux";
 
 type TodolistPropsType = {
     id: string,
     todolistTitle: string;
     tasks: Array<TaskType>;
-    removeTask: (todolistID: string, taskID: string) => void;/**/
+    removeTask: (todolistID: string, taskID: string) => void;
     removeTodolist: (todolistID: string) => void;
     addTask: (todolistID: string, newTaskTitle: string) => void;
     tasksFilter: (todolistID: string, tasksFilterValue: TasksFilterValueType) => void;
@@ -25,18 +22,6 @@ type TodolistPropsType = {
     onChangeTodolistTitle: (todolistID: string, newTodolistTitle: string) => void;
     tasksFilterValue: TasksFilterValueType;
 }
-// export type TodolistType = {
-//     id: string;
-//     todolistTitle: string;
-//     tasksFilterValue: TasksFilterValueType;
-// }
-// export type TasksFilterValueType = 'all' | 'active' | 'completed';
-
-// export type TaskType = {
-//     id: string;
-//     taskTitle: string;
-//     isDone: boolean;
-// }
 export type TasksStateType = {
     [key: string]: Array<TaskType>;
 }
@@ -104,4 +89,3 @@ export const Todolist = React.memo((props: TodolistPropsType) => {
         </div>
     );
 })
-
