@@ -17,7 +17,7 @@ export function Header() {
                         <MenuItem/>
                     </IconButton>
                     <Typography variant="h6">
-                        News
+                        TODOLIST
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>

@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect} from 'react';
-import './App.css';
-import {TasksStateType, Todolist} from "./Todolist";
-import {AddItemForm} from "./components/AddItemForm";
+import '../../app/App.css'
+import {TasksStateType, Todolist} from "./Todolist/Todolist";
+import {AddItemForm} from "../../components/AddItemForm";
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -9,16 +9,15 @@ import {
     getTodolistsTC,
     removeTodolistTC,
     TodolistDomainType,
-} from "./state/todolists-reducer";
-import {addTaskTC, removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
+} from "../../state/todolists-reducer";
+import {addTaskTC, removeTaskTC, updateTaskTC} from "../../state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
-import {Header} from "./components/header/Header";
+import {AppRootStateType} from "../../state/store";
 import {Container, Grid} from "@material-ui/core";
-import {TasksFilterValueType, TaskStatuses} from "./api/todolists-api";
+import {TasksFilterValueType, TaskStatuses} from "../../api/todolists-api";
 
-export function AppWithRedux() {
-    console.log("App is called");
+export const TodolistList = () => {
+    console.log("TodolistList is called");
 
     useEffect(() => {
         dispatch(getTodolistsTC());
@@ -56,8 +55,7 @@ export function AppWithRedux() {
     }, [dispatch]);
 
     return (
-        <div className="app">
-            <Header/>
+        <>
             <div className={"content"}>
                 <Container fixed>
                     <Grid container>
@@ -88,8 +86,7 @@ export function AppWithRedux() {
                         }
                     </Grid>
                 </Container>
-
             </div>
-        </div>
+        </>
     );
 }
