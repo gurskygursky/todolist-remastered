@@ -12,9 +12,9 @@ import {
 } from "./state/todolists-reducer";
 import {
     addTaskAC, addTaskTC,
-    changeTaskStatusAC, changeTaskStatusTC,
-    changeTaskTitleAC, changeTaskTitleTC,
-    removeTaskTC
+    // changeTaskStatusAC, changeTaskStatusTC,
+    // changeTaskTitleAC, changeTaskTitleTC,
+    removeTaskTC, UpdateTaskDomainType, updateTaskTC
 } from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
@@ -65,14 +65,14 @@ export function AppWithRedux() {
     // const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
     //     dispatch(changeTaskStatusAC(todolistID, taskID, status));
     // }, [dispatch]);
-    const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses ) => {
-        dispatch(changeTaskStatusTC(todolistID, taskID, status ));
+    const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
+        dispatch(updateTaskTC(todolistID, taskID, {status}));
     }, []);
     // const onChangeTaskTitle = useCallback((todolistID: string, taskID: string, newTaskTitle: string) => {
     //     dispatch(changeTaskTitleAC(todolistID, taskID, newTaskTitle));
     // }, [dispatch]);
     const onChangeTaskTitle = useCallback((todolistID: string, taskID: string, newTaskTitle: string) => {
-        dispatch(changeTaskTitleTC(todolistID, taskID, newTaskTitle));
+        dispatch(updateTaskTC(todolistID, taskID, {title: newTaskTitle}));
     }, [dispatch]);
     // const onChangeTodolistTitle = useCallback((todolistID: string, newTodolistTitle: string) => {
     //     dispatch(changeTodolistTitleAC(todolistID, newTodolistTitle));
