@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {Container, Grid} from "@material-ui/core";
 import {TasksFilterValueType, TaskStatuses} from "../../api/todolists-api";
+import {ErrorSnackbar} from "../../components/ErrorSnackbar/ErrorSnackbar";
 
 export const TodolistList = () => {
     console.log("TodolistList is called");
@@ -26,7 +27,6 @@ export const TodolistList = () => {
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
-    const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
 
     const addTask = useCallback((todolistID: string, newTaskTitle: string) => {
         dispatch(addTaskTC(todolistID, newTaskTitle));
@@ -58,7 +58,7 @@ export const TodolistList = () => {
     return (
         <>
             <div className={"content"}>
-                {<span>{error}</span>}
+                <ErrorSnackbar/>
                 <Container fixed>
                     <Grid container>
                         <AddItemForm addItem={addTodolist}/>
