@@ -53,7 +53,7 @@ export type UpdateTaskType = {
     startDate: string,
     deadline: string,
 }
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
     data: D,
     fieldsErrors: string[],
     messages: string[],
