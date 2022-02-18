@@ -35,6 +35,7 @@ export const EditableSpan = React.memo((props: EditableSpanType) => {
                          onBlur={deactivateEditMode}
                          autoFocus={true}
                          onKeyPress={keyPressHandler}
+                         disabled={props.disabled}
             />
             : <span onDoubleClick={activateEditMode}>{props.value}</span>
     );
