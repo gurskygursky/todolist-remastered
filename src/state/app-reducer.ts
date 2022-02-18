@@ -38,5 +38,6 @@ export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
 export type setAppErrorActionType = ReturnType<typeof setAppErrorAC>;
 export type setAppStatusActionType = ReturnType<typeof setAppStatusAC>;
+export type setAppLoaderStatusActionType = ReturnType<typeof setAppLoaderStatusAC>;
 
-type ActionsType = setAppErrorActionType | setAppStatusActionType | ReturnType<typeof setAppLoaderStatusAC>;
+type ActionsType = setAppErrorActionType | setAppStatusActionType | setAppLoaderStatusActionType;

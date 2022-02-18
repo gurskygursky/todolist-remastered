@@ -1,5 +1,10 @@
 import {TasksStateType} from "../features/TodolistList/Todolist/Todolist";
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from "./todolists-reducer";
+import {
+    AddTodolistActionType, changeTodolistEntityStatusAC,
+    ChangeTodolistEntityStatusActionType,
+    RemoveTodolistActionType,
+    SetTodolistsActionType
+} from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
@@ -51,8 +56,9 @@ export const removeTaskTC = (todolistId: string, taskId: string) => {
     }
 }
 export const addTaskTC = (todolistID: string, title: string) => {
-    return (dispatch: Dispatch<ActionsType | setAppStatusActionType | setAppErrorActionType>) => {
+    return (dispatch: Dispatch<ActionsType | setAppStatusActionType | setAppErrorActionType | ChangeTodolistEntityStatusActionType>) => {
         dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodolistEntityStatusAC(todolistID, 'loading'))
         todolistAPI.createTask(todolistID, title)
             .then((response) => {
                 if (response.data.resultCode === 0) {

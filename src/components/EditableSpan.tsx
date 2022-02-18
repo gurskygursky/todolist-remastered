@@ -4,6 +4,7 @@ import {TextField} from "@material-ui/core";
 type EditableSpanType = {
     value: string;
     onChange: (newInputValue: string) => void;
+    disabled?: boolean;
 }
 export const EditableSpan = React.memo((props: EditableSpanType) => {
     console.log("EditableSpan is called");

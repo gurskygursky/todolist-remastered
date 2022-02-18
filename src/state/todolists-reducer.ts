@@ -52,7 +52,6 @@ export const removeTodolistTC = (todolistId: string) => {
         todolistAPI.deleteTodolist(todolistId)
             .then(() => {
                 dispatch(removeTodolistAC(todolistId))
-                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
@@ -81,7 +80,7 @@ export const changeTodolistTitleTC = (todolistID: string, title: string) => {
                     dispatch(changeTodolistTitleAC(todolistID, title))
                     dispatch(setAppStatusAC('succeeded'))
                 }
-                if (response.data.resultCode !==0) {
+                if (response.data.resultCode !== 0) {
                     dispatch(setAppErrorAC(response.data.messages[0]))
                     dispatch(setAppStatusAC('succeeded'))
                 }
@@ -101,29 +100,28 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.filter(tl => tl.id !== action.todolistID)
         }
         case "ADD_TODOLIST": {
-            const newTodolist: TodolistDomainType = {...action.todolist, tasksFilterValue: "all", appStatus: 'idle'}
+            const newTodolist: TodolistDomainType = {...action.todolist, tasksFilterValue: "all", appStatus: "idle"}
             return [...state, newTodolist];
         }
         case "CHANGE_TODOLIST_TITLE": {
-            let todolist = state.find(td => td.id === action.todolistID)
-            if (todolist) {
-                todolist.title = action.todolistTitle;
-            }
-            return [...state]
+            return state.map(td => td.id === action.todolistID ? {...td, title: action.todolistTitle} : td)
+
+            // let todolist = state.find(td => td.id === action.todolistID)
+            // if (todolist) {
+            //     todolist.title = action.todolistTitle;
+            // }
+            // return [...state]
         }
         case "CHANGE_TODOLIST_FILTER": {
-            let todolist = state.find(td => td.id === action.todolistID)
-            if (todolist) {
-                todolist.tasksFilterValue = action.changeTaskStatus;
-            }
-            return [...state]
+            return state.map(td => td.id === action.changeTaskStatus ? {...td, tasksFilterValue: action.changeTaskStatus} : td)
+            // let todolist = state.find(td => td.id === action.todolistID)
+            // if (todolist) {
+            //     todolist.tasksFilterValue = action.changeTaskStatus;
+            // }
+            // return [...state]
         }
         case "CHANGE_TODOLIST_ENTITY_STATUS": {
-            let todolist = state.find(td => td.id === action.id)
-            if (todolist) {
-                todolist.appStatus = action.appStatus;
-            }
-            return [...state]
+            return state.map(td => td.id === action.id ? {...td, appStatus: action.appStatus} : td)
         }
         case "SET_TODOLISTS": {
             return action.todolists.map(tl => ({
@@ -143,10 +141,11 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
+export type ChangeTodolistEntityStatusActionType = ReturnType<typeof changeTodolistEntityStatusAC>
 
 type ActionsType = RemoveTodolistActionType
     | AddTodolistActionType
     | SetTodolistsActionType
+    | ChangeTodolistEntityStatusActionType
     | ReturnType<typeof changeTodolistTitleAC>
-    | ReturnType<typeof changeTodolistFilterAC>
-    | ReturnType<typeof changeTodolistEntityStatusAC>;
+    | ReturnType<typeof changeTodolistFilterAC>;
