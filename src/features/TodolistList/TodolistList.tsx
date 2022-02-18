@@ -70,18 +70,15 @@ export const TodolistList = () => {
 
                                 return (<Grid item key={td.id}>
                                         <Todolist
-                                            id={td.id}
-                                            todolistTitle={td.title}
+                                            todolist={td}
                                             tasks={tasksForTodolist}
                                             removeTask={removeTask}
                                             removeTodolist={removeTodolist}
-                                            tasksFilterValue={td.tasksFilterValue}
                                             tasksFilter={tasksFilter}
                                             addTask={addTask}
                                             taskStatusIsChecked={taskStatusIsChecked}
                                             onChangeTaskTitle={onChangeTaskTitle}
                                             onChangeTodolistTitle={onChangeTodolistTitle}
-                                            appStatus={td.appStatus}
                                         />
                                     </Grid>
                                 )
