@@ -66,7 +66,7 @@ export const addTodolistTC = (todolistTitle: string) => {
                 }
                 if (response.data.resultCode !== 0) {
                     dispatch(setAppErrorAC(response.data.messages[0]))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC('failed'))
                 }
             })
     }
@@ -82,7 +82,7 @@ export const changeTodolistTitleTC = (todolistID: string, title: string) => {
                 }
                 if (response.data.resultCode !== 0) {
                     dispatch(setAppErrorAC(response.data.messages[0]))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC('failed'))
                 }
             })
     }
