@@ -81,6 +81,7 @@ export const TodolistList = () => {
                                             taskStatusIsChecked={taskStatusIsChecked}
                                             onChangeTaskTitle={onChangeTaskTitle}
                                             onChangeTodolistTitle={onChangeTodolistTitle}
+                                            appStatus={td.appStatus}
                                         />
                                     </Grid>
                                 )

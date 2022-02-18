@@ -6,7 +6,7 @@ import {AppRootStateType} from "../../state/store";
 
 
 export function Header() {
-    const status = useSelector<AppRootStateType>(state => state.app.status);
+    const status = useSelector<AppRootStateType>(state => state.app.appStatus);
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static" className={"header"}>
