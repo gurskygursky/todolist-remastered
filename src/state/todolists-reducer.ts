@@ -7,6 +7,7 @@ import {
     setAppStatusAC,
     setAppStatusActionType
 } from "./app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
 //actions
 export const removeTodolistAC = (todolistID: string) => ({
@@ -46,12 +47,17 @@ export const getTodolistsTC = () => {
     }
 }
 export const removeTodolistTC = (todolistId: string) => {
-    return (dispatch: Dispatch<ActionsType | setAppStatusActionType>) => {
+    return (dispatch: Dispatch<ActionsType | setAppStatusActionType | setAppErrorActionType | ChangeTodolistEntityStatusActionType>) => {
         dispatch(setAppStatusAC('loading'))
         dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
         todolistAPI.deleteTodolist(todolistId)
             .then(() => {
                 dispatch(removeTodolistAC(todolistId))
+                dispatch(setAppStatusAC('succeeded'))
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
+                dispatch(changeTodolistEntityStatusAC(todolistId, 'failed'))
             })
     }
 }
@@ -63,11 +69,18 @@ export const addTodolistTC = (todolistTitle: string) => {
                 if (response.data.resultCode === 0) {
                     dispatch(addTodolistAC(response.data.data.item))
                     dispatch(setAppStatusAC('succeeded'))
-                }
-                if (response.data.resultCode !== 0) {
-                    dispatch(setAppErrorAC(response.data.messages[0]))
+                } else {
+                    handleServerAppError(response.data, dispatch)
                     dispatch(setAppStatusAC('failed'))
                 }
+                // if (response.data.resultCode !== 0) {
+                //     dispatch(setAppErrorAC(response.data.messages[0]))
+                //     dispatch(setAppStatusAC('failed'))
+                // }
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
+                dispatch(setAppStatusAC('failed'))
             })
     }
 }
@@ -79,11 +92,18 @@ export const changeTodolistTitleTC = (todolistID: string, title: string) => {
                 if (response.data.resultCode === 0) {
                     dispatch(changeTodolistTitleAC(todolistID, title))
                     dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    handleServerAppError(response.data, dispatch)
+                    dispatch(changeTodolistEntityStatusAC(todolistID, 'failed'))
                 }
-                if (response.data.resultCode !== 0) {
-                    dispatch(setAppErrorAC(response.data.messages[0]))
-                    dispatch(setAppStatusAC('failed'))
-                }
+                // if (response.data.resultCode !== 0) {
+                //     dispatch(setAppErrorAC(response.data.messages[0]))
+                //     dispatch(setAppStatusAC('failed'))
+                // }
+            })
+            .catch((error) => {
+                handleServerNetworkError(error, dispatch)
+                dispatch(changeTodolistEntityStatusAC(todolistID, 'failed'))
             })
     }
 }
