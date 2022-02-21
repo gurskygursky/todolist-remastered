@@ -9,10 +9,24 @@ import {
     Grid,
     TextField
 } from "@material-ui/core";
+import {useFormik} from "formik";
 
 export const Login = () => {
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+            rememberMe: false
+        },
+        onSubmit: values => {
+            alert(JSON.stringify(values));
+        },
+    })
+
+
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
+            <form onSubmit={formik.handleSubmit}>
             <FormControl>
                 <FormLabel>
                     <p>To log in get registered
@@ -25,16 +39,32 @@ export const Login = () => {
                     <p>Password: free</p>
                 </FormLabel>
                 <FormGroup>
-                    <TextField label="Email" margin="normal"/>
-                    <TextField type="password" label="Password"
+                    <TextField label="Email"
                                margin="normal"
+                               name={"email"}
+                               onChange={formik.handleChange}
+                               value={formik.values.email}
                     />
-                    <FormControlLabel label={'Remember me'} control={<Checkbox/>}/>
+                    <TextField type="password"
+                               label="Password"
+                               margin="normal"
+                               name={"password"}
+                               onChange={formik.handleChange}
+                               value={formik.values.password}
+                    />
+                    <FormControlLabel label={'Remember me'}
+                                      control={<Checkbox
+                                          name={"rememberMe"}
+                                          onChange={formik.handleChange}
+                                          checked={formik.values.rememberMe}
+                                      />}
+                    />
                     <Button type={'submit'} variant={'contained'} color={'primary'}>
                         Login
                     </Button>
                 </FormGroup>
             </FormControl>
+                </form>
         </Grid>
     </Grid>
 }
