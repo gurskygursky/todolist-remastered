@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {dark} from "@material-ui/core/styles/createPalette";
 
 const settings = {
     withCredentials: true,
@@ -65,6 +64,13 @@ type GetTasksResponseType = {
     totalCount: number,
     error: string,
 }
+export type LoginParamsType = {
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    captcha?: boolean,
+}
+
 
 
 export const todolistAPI = {
@@ -93,14 +99,6 @@ export const todolistAPI = {
         return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`);
     },
 }
-
-export type LoginParamsType = {
-    email: string,
-    password: string,
-    rememberMe: boolean,
-    captcha?: boolean,
-}
-
 export const authAPI = {
     login(authData: LoginParamsType) {
         return instance.post<ResponseType<{userId: string}>>(`auth/login`, authData)

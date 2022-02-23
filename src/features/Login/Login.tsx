@@ -13,6 +13,7 @@ import {useFormik} from "formik";
 import {loginTC} from "../../state/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
+import {ErrorSnackbar} from "../../components/ErrorSnackbar/ErrorSnackbar";
 
 type FormikErrorType = {
     email?: string
@@ -101,6 +102,7 @@ export const Login = () => {
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>
+                        <ErrorSnackbar/>
                     </FormGroup>
                 </FormControl>
             </form>

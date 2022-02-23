@@ -2,7 +2,6 @@ import {Dispatch} from "redux";
 import {TasksFilterValueType, todolistAPI, TodolistType} from "../api/todolists-api";
 import {
     RequestStatusType,
-    setAppErrorAC,
     setAppErrorActionType,
     setAppStatusAC,
     setAppStatusActionType
@@ -37,13 +36,14 @@ export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET_T
 
 //thunks
 export const getTodolistsTC = () => {
-    return (dispatch: Dispatch<ActionsType | setAppStatusActionType>) => {
+    return (dispatch: Dispatch<ActionsType | setAppStatusActionType | setAppErrorActionType>) => {
         dispatch(setAppStatusAC('loading'));
         todolistAPI.getTodolists()
             .then((res) => {
                 dispatch(setTodolistsAC(res.data));
                 dispatch(setAppStatusAC('succeeded'));
             })
+            .catch(error => {handleServerNetworkError(error, dispatch)})
     }
 }
 export const removeTodolistTC = (todolistId: string) => {
@@ -73,10 +73,6 @@ export const addTodolistTC = (todolistTitle: string) => {
                     handleServerAppError(response.data, dispatch)
                     dispatch(setAppStatusAC('failed'))
                 }
-                // if (response.data.resultCode !== 0) {
-                //     dispatch(setAppErrorAC(response.data.messages[0]))
-                //     dispatch(setAppStatusAC('failed'))
-                // }
             })
             .catch((error) => {
                 handleServerNetworkError(error, dispatch)
@@ -96,10 +92,6 @@ export const changeTodolistTitleTC = (todolistID: string, title: string) => {
                     handleServerAppError(response.data, dispatch)
                     dispatch(changeTodolistEntityStatusAC(todolistID, 'failed'))
                 }
-                // if (response.data.resultCode !== 0) {
-                //     dispatch(setAppErrorAC(response.data.messages[0]))
-                //     dispatch(setAppStatusAC('failed'))
-                // }
             })
             .catch((error) => {
                 handleServerNetworkError(error, dispatch)
@@ -125,20 +117,9 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
         }
         case "CHANGE_TODOLIST_TITLE": {
             return state.map(td => td.id === action.todolistID ? {...td, title: action.todolistTitle} : td)
-
-            // let todolist = state.find(td => td.id === action.todolistID)
-            // if (todolist) {
-            //     todolist.title = action.todolistTitle;
-            // }
-            // return [...state]
         }
         case "CHANGE_TODOLIST_FILTER": {
             return state.map(td => td.id === action.changeTaskStatus ? {...td, tasksFilterValue: action.changeTaskStatus} : td)
-            // let todolist = state.find(td => td.id === action.todolistID)
-            // if (todolist) {
-            //     todolist.tasksFilterValue = action.changeTaskStatus;
-            // }
-            // return [...state]
         }
         case "CHANGE_TODOLIST_ENTITY_STATUS": {
             return state.map(td => td.id === action.id ? {...td, appStatus: action.appStatus} : td)

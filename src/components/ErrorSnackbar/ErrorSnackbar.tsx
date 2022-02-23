@@ -29,6 +29,5 @@ export function ErrorSnackbar() {
                 {error}
             </Alert>
         </Snackbar>
-
     );
 }
