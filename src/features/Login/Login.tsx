@@ -11,7 +11,8 @@ import {
 } from "@material-ui/core";
 import {useFormik} from "formik";
 import {loginTC} from "../../state/auth-reducer";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../state/store";
 
 type FormikErrorType = {
     email?: string
@@ -23,6 +24,7 @@ type FormikErrorType = {
 export const Login = () => {
 
     const dispatch = useDispatch();
+    const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
 
     const formik = useFormik({
         initialValues: {
@@ -55,7 +57,6 @@ export const Login = () => {
         },
     })
 
-
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>
@@ -74,40 +75,29 @@ export const Login = () => {
                         <TextField label="Email"
                                    margin="normal"
                                    {...formik.getFieldProps('email')}
-
-                            // name={"email"}
-                                   // onChange={formik.handleChange}
-                                   // onBlur={formik.handleBlur}
-                                   // value={formik.values.email}
-                        />
-                        <TextField
-                            // type="password"
-                                   label="Password"
-                                   margin="normal"
-                            {...formik.getFieldProps('password')}
-                                   // name={"password"}
-                                   // onChange={formik.handleChange}
-                                   // onBlur={formik.handleBlur}
-                                   // value={formik.values.password}
-                        />
-                        <FormControlLabel label={'Remember me'}
-                                          control={<Checkbox
-                                              {...formik.getFieldProps('checkbox')}
-                                              // name={"rememberMe"}
-                                              // onChange={formik.handleChange}
-                                              // checked={formik.values.rememberMe}
-                                          />}
                         />
                         {
                             formik.touched.email &&
                             formik.errors.email
                                 ? <div style={{color: 'red'}}>{formik.errors.email}</div>
                                 : null}
+                        {error ? <span style={{color: 'crimson'}}>{error}</span> : null}
+                        <TextField
+                            label="Password"
+                            margin="normal"
+                            {...formik.getFieldProps('password')}
+                        />
                         {
                             formik.touched.password &&
                             formik.errors.password
                                 ? <div style={{color: 'red'}}>{formik.errors.password}</div>
                                 : null}
+                        {error ? <span style={{color: 'crimson'}}>{error}</span> : null}
+                        <FormControlLabel label={'Remember me'}
+                                          control={<Checkbox
+                                              {...formik.getFieldProps('checkbox')}
+                                          />}
+                        />
                         <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>
