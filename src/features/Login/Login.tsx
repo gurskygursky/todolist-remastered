@@ -14,6 +14,7 @@ import {loginTC} from "../../state/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {ErrorSnackbar} from "../../components/ErrorSnackbar/ErrorSnackbar";
+import { Navigate } from 'react-router-dom';
 
 type FormikErrorType = {
     email?: string
@@ -26,6 +27,7 @@ export const Login = () => {
 
     const dispatch = useDispatch();
     const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
 
     const formik = useFormik({
         initialValues: {
@@ -57,6 +59,12 @@ export const Login = () => {
             formik.resetForm();
         },
     })
+
+    if (isLoggedIn) {
+        return (
+            <Navigate to={'/'}/>
+        )
+    }
 
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
