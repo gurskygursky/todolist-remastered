@@ -26,7 +26,6 @@ export function App() {
         </div>
     }
 
-
     return (
         <div className="app">
             <Header/>

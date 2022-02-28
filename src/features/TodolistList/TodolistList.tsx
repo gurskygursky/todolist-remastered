@@ -16,6 +16,7 @@ import {AppRootStateType} from "../../state/store";
 import {Container, Grid} from "@material-ui/core";
 import {TasksFilterValueType, TaskStatuses} from "../../api/todolists-api";
 import {ErrorSnackbar} from "../../components/ErrorSnackbar/ErrorSnackbar";
+import { Navigate } from 'react-router-dom';
 
 export const TodolistList = () => {
     console.log("TodolistList is called");
@@ -27,6 +28,7 @@ export const TodolistList = () => {
     const dispatch = useDispatch();
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
+    const isLoggedIn = useSelector<AppRootStateType>(state => state.auth.isLoggedIn);
 
     const addTask = useCallback((todolistID: string, newTaskTitle: string) => {
         dispatch(addTaskTC(todolistID, newTaskTitle));
@@ -55,6 +57,11 @@ export const TodolistList = () => {
         dispatch(changeTodolistTitleTC(todolistID, newTodolistTitle));
     }, [dispatch]);
 
+    if (!isLoggedIn) {
+        return (
+            <Navigate to={'/login'}/>
+        )
+    }
     return (
         <>
             <div className={"content"}>
