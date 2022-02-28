@@ -1,13 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css'
-import {Container} from "@material-ui/core";
+import {CircularProgress, Container} from "@material-ui/core";
 import {TodolistList} from "../features/TodolistList/TodolistList";
 import {Header} from '../components/header/Header';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
+import {useDispatch, useSelector} from "react-redux";
+import {initializeAppTC} from "../state/app-reducer";
+import {AppRootStateType} from "../state/store";
 
 export function App() {
     console.log("App is called");
+
+    const dispatch = useDispatch();
+    const isInitialized = useSelector<AppRootStateType>(state => state.app.isInitialized);
+
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, []);
+
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
+
 
     return (
         <div className="app">

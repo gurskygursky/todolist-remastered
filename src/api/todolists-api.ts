@@ -102,5 +102,8 @@ export const todolistAPI = {
 export const authAPI = {
     login(authData: LoginParamsType) {
         return instance.post<ResponseType<{userId: string}>>(`auth/login`, authData)
+    },
+    me() {
+        return instance.get<ResponseType<{id: number, email: string, login: string}>>(`auth/me`)
     }
 }
