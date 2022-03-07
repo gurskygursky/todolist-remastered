@@ -10,11 +10,11 @@ import {
     TextField
 } from "@material-ui/core";
 import {useFormik} from "formik";
-import {loginTC} from "../../state/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {ErrorSnackbar} from "../../components/ErrorSnackbar/ErrorSnackbar";
-import { Navigate } from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
+import {loginTC} from "../../state/auth-reducer";
 
 type FormikErrorType = {
     email?: string

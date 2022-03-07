@@ -31,7 +31,7 @@ export function Header() {
                     </Typography>
                     {isLoggedIn && <Button color="inherit" onClick={LogoutHandler}>Logout</Button>}
                 </Toolbar>
-                {status === 'loading' && <LinearProgress color={'secondary'}/> }
+                {status === 'loading' && <LinearProgress color={'secondary'}/>}
             </AppBar>
         </Box>
     );

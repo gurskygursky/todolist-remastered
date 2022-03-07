@@ -1,8 +1,7 @@
-import { Dispatch } from 'redux'
+import {Dispatch} from 'redux'
 import {setAppErrorActionType, setAppStatusAC, setAppStatusActionType} from "./app-reducer";
 import {authAPI, LoginParamsType} from "../api/todolists-api";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-import {setTodolistsAC} from "./todolists-reducer";
 
 const initialState = {
     isLoggedIn: false
@@ -31,8 +30,7 @@ export const loginTC = (authData: LoginParamsType) => {
                     // alert('YO')
                     dispatch(setIsLoggedInAC(true))
                     dispatch(setAppStatusAC('succeeded'))
-                }
-                else {
+                } else {
                     handleServerAppError(response.data, dispatch)
                     dispatch(setAppStatusAC('failed'))
                 }

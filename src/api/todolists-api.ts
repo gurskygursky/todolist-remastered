@@ -26,6 +26,7 @@ export enum TaskStatuses {
     Completed,
     Draft,
 }
+
 export enum TaskPriorities {
     Low,
     Middle,
@@ -33,6 +34,7 @@ export enum TaskPriorities {
     Urgently,
     Later,
 }
+
 export type TaskType = {
     addedDate: string,
     deadline: string,
@@ -72,16 +74,15 @@ export type LoginParamsType = {
 }
 
 
-
 export const todolistAPI = {
     getTodolists() {
         return instance.get<Array<TodolistType>>(`todo-lists`);
     },
     createTodolist(title: string) {
-        return instance.post<ResponseType<{item: TodolistType}>>(`todo-lists`, {title: title});
+        return instance.post<ResponseType<{ item: TodolistType }>>(`todo-lists`, {title: title});
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put<ResponseType<{item: TodolistType}>>(`todo-lists/${todolistId}`, {title: title});
+        return instance.put<ResponseType<{ item: TodolistType }>>(`todo-lists/${todolistId}`, {title: title});
     },
     deleteTodolist(todolistId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}`);
@@ -90,10 +91,10 @@ export const todolistAPI = {
         return instance.get<GetTasksResponseType>(`/todo-lists/${todolistId}/tasks`);
     },
     createTask(todolistId: string, title: string) {
-        return instance.post<ResponseType<{item: TaskType}>>(`/todo-lists/${todolistId}/tasks`, {title: title});
+        return instance.post<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks`, {title: title});
     },
     updateTask(todolistId: string, taskId: string, updateModel: UpdateTaskType) {
-        return instance.put<ResponseType<{item: TaskType}>>(`/todo-lists/${todolistId}/tasks/${taskId}`, updateModel);
+        return instance.put<ResponseType<{ item: TaskType }>>(`/todo-lists/${todolistId}/tasks/${taskId}`, updateModel);
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`);
@@ -101,10 +102,10 @@ export const todolistAPI = {
 }
 export const authAPI = {
     login(authData: LoginParamsType) {
-        return instance.post<ResponseType<{userId: string}>>(`auth/login`, authData)
+        return instance.post<ResponseType<{ userId: string }>>(`auth/login`, authData)
     },
     me() {
-        return instance.get<ResponseType<{id: number, email: string, login: string}>>(`auth/me`)
+        return instance.get<ResponseType<{ id: number, email: string, login: string }>>(`auth/me`)
     },
     logout() {
         return instance.delete<ResponseType>(`auth/login`)
