@@ -7,6 +7,7 @@ import {
     SetAppStatusActionType
 } from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {getTasksTC} from "./tasks-reducer";
 
 //actions
 export const removeTodolistAC = (todolistID: string) => ({
@@ -37,12 +38,19 @@ export const logoutClearDataAC = () => ({type: 'LOGOUT_CLEAR_DATA'} as const)
 
 //thunks
 export const getTodolistsTC = () => {
-    return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>) => {
+    // return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>) => {
+    return (dispatch: any) => {
         dispatch(setAppStatusAC('loading'));
         todolistAPI.getTodolists()
             .then((res) => {
                 dispatch(setTodolistsAC(res.data));
                 dispatch(setAppStatusAC('succeeded'));
+                return res.data;
+            })
+            .then((td) => {
+                td.forEach((tl) => {
+                    dispatch(getTasksTC(tl.id))
+                });
             })
             .catch(error => {
                 handleServerNetworkError(error, dispatch)
