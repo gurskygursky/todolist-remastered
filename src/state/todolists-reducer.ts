@@ -33,6 +33,7 @@ export const changeTodolistEntityStatusAC = (id: string, appStatus: RequestStatu
     appStatus,
 } as const)
 export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: 'SET_TODOLISTS', todolists} as const)
+export const logoutClearDataAC = () => ({type: 'LOGOUT_CLEAR_DATA'} as const)
 
 //thunks
 export const getTodolistsTC = () => {
@@ -138,6 +139,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
                 appStatus: 'idle',
             }))
         }
+        case 'LOGOUT_CLEAR_DATA':
+            return [];
         default:
             return state;
     }
@@ -148,10 +151,12 @@ export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
 export type ChangeTodolistEntityStatusActionType = ReturnType<typeof changeTodolistEntityStatusAC>
+export type LogoutClearDataActionType = ReturnType<typeof logoutClearDataAC>
 
 type ActionsType = RemoveTodolistActionType
     | AddTodolistActionType
     | SetTodolistsActionType
     | ChangeTodolistEntityStatusActionType
     | ReturnType<typeof changeTodolistTitleAC>
-    | ReturnType<typeof changeTodolistFilterAC>;
+    | ReturnType<typeof changeTodolistFilterAC>
+    | LogoutClearDataActionType;

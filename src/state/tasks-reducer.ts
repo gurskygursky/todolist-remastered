@@ -1,7 +1,7 @@
 import {TasksStateType} from "../features/todolists/todolist/Todolist";
 import {
     AddTodolistActionType, changeTodolistEntityStatusAC,
-    ChangeTodolistEntityStatusActionType,
+    ChangeTodolistEntityStatusActionType, LogoutClearDataActionType,
     RemoveTodolistActionType,
     SetTodolistsActionType
 } from "./todolists-reducer";
@@ -157,6 +157,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             stateCopy[action.todolistID] = action.tasks
             return stateCopy
         }
+        case "LOGOUT_CLEAR_DATA":
+            return {}
         default:
             return state;
     }
@@ -178,4 +180,5 @@ type ActionsType =
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof addTaskAC>
     | ReturnType<typeof removeTaskAC>
-    | ReturnType<typeof updateTaskAC>;
+    | ReturnType<typeof updateTaskAC>
+    | LogoutClearDataActionType;
