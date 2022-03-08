@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {logoutTC} from "../../state/auth-reducer";
 
-
 export function Header() {
     const status = useSelector<AppRootStateType>(state => state.app.appStatus);
     const isLoggedIn = useSelector<AppRootStateType>(state => state.auth.isLoggedIn);
@@ -14,6 +13,7 @@ export function Header() {
     const LogoutHandler = () => {
         dispatch(logoutTC())
     }
+
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static" className={"header"}>

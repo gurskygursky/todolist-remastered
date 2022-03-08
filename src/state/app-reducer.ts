@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import { authAPI } from "../api/todolists-api";
+import {authAPI} from "../api/todolists-api";
 import {setIsLoggedInAC} from "./auth-reducer";
 
 const initialState: InitialStateType = {
@@ -59,9 +59,13 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
 //types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
-export type setAppErrorActionType = ReturnType<typeof setAppErrorAC>;
-export type setAppStatusActionType = ReturnType<typeof setAppStatusAC>;
-export type setAppLoaderStatusActionType = ReturnType<typeof setAppLoaderStatusAC>;
-export type setAppInitializeActionType = ReturnType<typeof setAppInitializeAC>;
+export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>;
+export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>;
+export type SetAppLoaderStatusActionType = ReturnType<typeof setAppLoaderStatusAC>;
+export type SetAppInitializeActionType = ReturnType<typeof setAppInitializeAC>;
 
-type ActionsType = setAppErrorActionType | setAppStatusActionType | setAppLoaderStatusActionType | setAppInitializeActionType;
+type ActionsType =
+    SetAppErrorActionType
+    | SetAppStatusActionType
+    | SetAppLoaderStatusActionType
+    | SetAppInitializeActionType;

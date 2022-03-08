@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import './App.css'
 import {CircularProgress, Container} from "@material-ui/core";
-import {TodolistList} from "../features/TodolistList/TodolistList";
+import {TodolistList} from "../features/todolists/TodolistList";
 import {Header} from '../components/header/Header';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
-import {Login} from "../features/Login/Login";
+import {Login} from "../features/login/Login";
 import {useDispatch, useSelector} from "react-redux";
 import {initializeAppTC} from "../state/app-reducer";
 import {AppRootStateType} from "../state/store";
@@ -39,7 +39,6 @@ export function App() {
                             <Route path="*" element={<Navigate to={"/404"}/>}/>
                         </Routes>
                     </BrowserRouter>
-                    {/*<TodolistList/>*/}
                 </Container>
             </div>
         </div>

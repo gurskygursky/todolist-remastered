@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux'
-import {setAppErrorActionType, setAppStatusAC, setAppStatusActionType} from "./app-reducer";
+import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reducer";
 import {authAPI, LoginParamsType} from "../api/todolists-api";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 
@@ -22,7 +22,7 @@ export const setIsLoggedInAC = (value: boolean) =>
 
 // thunks
 export const loginTC = (authData: LoginParamsType) => {
-    return (dispatch: Dispatch<ActionsType | setAppStatusActionType | setAppErrorActionType>) => {
+    return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>) => {
         dispatch(setAppStatusAC('loading'))
         authAPI.login(authData)
             .then((response) => {
@@ -57,6 +57,5 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
         })
 }
 
-
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | setAppStatusActionType | setAppErrorActionType
+type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetAppStatusActionType | SetAppErrorActionType;

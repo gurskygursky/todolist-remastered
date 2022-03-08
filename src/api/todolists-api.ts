@@ -19,14 +19,12 @@ export type TodolistType = {
     title: string,
 }
 export type TasksFilterValueType = 'all' | 'active' | 'completed';
-
 export enum TaskStatuses {
     New,
     InProgress,
     Completed,
     Draft,
 }
-
 export enum TaskPriorities {
     Low,
     Middle,
@@ -34,7 +32,6 @@ export enum TaskPriorities {
     Urgently,
     Later,
 }
-
 export type TaskType = {
     addedDate: string,
     deadline: string,
@@ -73,7 +70,6 @@ export type LoginParamsType = {
     captcha?: boolean,
 }
 
-
 export const todolistAPI = {
     getTodolists() {
         return instance.get<Array<TodolistType>>(`todo-lists`);
@@ -109,5 +105,5 @@ export const authAPI = {
     },
     logout() {
         return instance.delete<ResponseType>(`auth/login`)
-    }
+    },
 }

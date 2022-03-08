@@ -6,7 +6,8 @@ type AddItemFormType = {
     addItem: (title: string) => void;
     disabled?: boolean;
 }
-export const AddItemForm = React.memo(( props: AddItemFormType) => {
+
+export const AddItemForm = React.memo((props: AddItemFormType) => {
     console.log("AddItemForm is called");
     let [inputValue, setInputValue] = useState<string>('');
     let [error, setError] = useState<string | null>(null);
