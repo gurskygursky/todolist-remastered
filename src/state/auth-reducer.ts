@@ -38,31 +38,31 @@ export const {setIsLoggedInAC} = todolistAuthSlice.actions;
 // thunks
 export const loginTC = (authData: LoginParamsType) => {
     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>) => {
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({appStatus: "loading"}))
         authAPI.login(authData)
             .then((response) => {
                 if (response.data.resultCode === 0) {
                     // alert('YO')
                     dispatch(setIsLoggedInAC({value: true}))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({appStatus: 'succeeded'}))
                 } else {
                     handleServerAppError(response.data, dispatch)
-                    dispatch(setAppStatusAC('failed'))
+                    dispatch(setAppStatusAC({appStatus: 'failed'}))
                 }
             })
             .catch(error => {
                 handleServerNetworkError(error, dispatch)
-                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppStatusAC({appStatus: 'failed'}))
             })
     }
 }
 export const logoutTC = () => (dispatch: Dispatch<ActionsType | LogoutClearDataActionType>) => {
-    dispatch(setAppStatusAC('loading'))
+    dispatch(setAppStatusAC({appStatus: 'loading'}))
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(setIsLoggedInAC({value: false}))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({appStatus: 'succeeded'}))
                 dispatch(logoutClearDataAC())
             } else {
                 handleServerAppError(res.data, dispatch)

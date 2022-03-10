@@ -40,11 +40,11 @@ export const logoutClearDataAC = () => ({type: 'LOGOUT_CLEAR_DATA'} as const)
 export const getTodolistsTC = () => {
     // return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>) => {
     return (dispatch: any) => {
-        dispatch(setAppStatusAC('loading'));
+        dispatch(setAppStatusAC({appStatus: 'loading'}));
         todolistAPI.getTodolists()
             .then((res) => {
                 dispatch(setTodolistsAC(res.data));
-                dispatch(setAppStatusAC('succeeded'));
+                dispatch(setAppStatusAC({appStatus: 'succeeded'}));
                 return res.data;
             })
             .then((td) => {
@@ -59,12 +59,12 @@ export const getTodolistsTC = () => {
 }
 export const removeTodolistTC = (todolistId: string) => {
     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType | ChangeTodolistEntityStatusActionType>) => {
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({appStatus: 'loading'}))
         dispatch(changeTodolistEntityStatusAC(todolistId, 'loading'))
         todolistAPI.deleteTodolist(todolistId)
             .then(() => {
                 dispatch(removeTodolistAC(todolistId))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({appStatus: 'succeeded'}))
             })
             .catch((error) => {
                 handleServerNetworkError(error, dispatch)
@@ -74,31 +74,31 @@ export const removeTodolistTC = (todolistId: string) => {
 }
 export const addTodolistTC = (todolistTitle: string) => {
     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>) => {
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({appStatus: 'loading'}))
         todolistAPI.createTodolist(todolistTitle)
             .then((response) => {
                 if (response.data.resultCode === 0) {
                     dispatch(addTodolistAC(response.data.data.item))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({appStatus: 'succeeded'}))
                 } else {
                     handleServerAppError(response.data, dispatch)
-                    dispatch(setAppStatusAC('failed'))
+                    dispatch(setAppStatusAC({appStatus: 'failed'}))
                 }
             })
             .catch((error) => {
                 handleServerNetworkError(error, dispatch)
-                dispatch(setAppStatusAC('failed'))
+                dispatch(setAppStatusAC({appStatus: 'failed'}))
             })
     }
 }
 export const changeTodolistTitleTC = (todolistID: string, title: string) => {
     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>) => {
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({appStatus: 'loading'}))
         todolistAPI.updateTodolist(todolistID, title)
             .then((response) => {
                 if (response.data.resultCode === 0) {
                     dispatch(changeTodolistTitleAC(todolistID, title))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({appStatus: 'succeeded'}))
                 } else {
                     handleServerAppError(response.data, dispatch)
                     dispatch(changeTodolistEntityStatusAC(todolistID, 'failed'))
