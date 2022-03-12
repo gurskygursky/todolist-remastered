@@ -15,7 +15,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: TasksStateType = {};
 const tasksSlice = createSlice({
-    name: 'auth',
+    name: 'tasks',
     initialState: initialState,
     reducers: {
         removeTaskAC: (state, action: PayloadAction<{ todolistID: string, taskID: string }>) => {
