@@ -1,8 +1,9 @@
 import {TasksStateType} from "../features/todolists/todolist/Todolist";
 import {
+    addTodolistAC,
     AddTodolistActionType, changeTodolistEntityStatusAC,
-    ChangeTodolistEntityStatusActionType, LogoutClearDataActionType,
-    RemoveTodolistActionType,
+    ChangeTodolistEntityStatusActionType, LogoutClearDataActionType, removeTodolistAC,
+    RemoveTodolistActionType, setTodolistsAC,
     SetTodolistsActionType
 } from "./todolists-reducer";
 import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskType} from "../api/todolists-api";
@@ -58,21 +59,21 @@ export const removeTaskTC = (todolistId: string, taskId: string) => {
 export const addTaskTC = (todolistID: string, title: string) => {
     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType | ChangeTodolistEntityStatusActionType>) => {
         dispatch(setAppStatusAC({appStatus: 'loading'}))
-        dispatch(changeTodolistEntityStatusAC(todolistID, 'loading'))
+        dispatch(changeTodolistEntityStatusAC({todolistID, appStatus: 'loading'}))
         todolistAPI.createTask(todolistID, title)
             .then((response) => {
                 if (response.data.resultCode === 0) {
                     dispatch(addTaskAC(response.data.data.item))
                     dispatch(setAppStatusAC({appStatus: 'succeeded'}))
-                    dispatch(changeTodolistEntityStatusAC(todolistID, 'succeeded'))
+                    dispatch(changeTodolistEntityStatusAC({todolistID, appStatus: 'succeeded'}))
                 } else {
                     handleServerAppError(response.data, dispatch)
-                    dispatch(changeTodolistEntityStatusAC(todolistID, 'failed'))
+                    dispatch(changeTodolistEntityStatusAC({todolistID, appStatus: 'failed'}))
                 }
             })
             .catch(error => {
                 handleServerNetworkError(error, dispatch)
-                dispatch(changeTodolistEntityStatusAC(todolistID, 'failed'))
+                dispatch(changeTodolistEntityStatusAC({todolistID, appStatus: 'failed'}))
             })
     }
 }
@@ -105,14 +106,14 @@ export const updateTaskTC = (todolistID: string, taskID: string, domainModel: Up
             })
             .catch(error => {
                 handleServerNetworkError(error, dispatch)
-                dispatch(changeTodolistEntityStatusAC(todolistID, 'failed'))
+                dispatch(changeTodolistEntityStatusAC({todolistID, appStatus: 'failed'}))
             })
     }
 }
 
 const initialState: TasksStateType = {};
 
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: any): TasksStateType => {
     switch (action.type) {
         case "REMOVE_TASK": {
             const stateCopy = {...state};
@@ -135,19 +136,19 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                         : task)
             }
         }
-        case 'ADD_TODOLIST': {
+        case addTodolistAC.type: {
             const stateCopy = {...state};
-            stateCopy[action.todolist.id] = [];
+            stateCopy[action.payload.todolist.id] = [];
             return stateCopy;
         }
-        case "REMOVE_TODOLIST": {
+        case removeTodolistAC.type: {
             const stateCopy = {...state};
-            delete stateCopy[action.todolistID];
+            delete stateCopy[action.payload.todolistID];
             return stateCopy;
         }
-        case "SET_TODOLISTS": {
+        case setTodolistsAC.type: {
             const stateCopy = {...state}
-            action.todolists.forEach((tl) => {
+            action.payload.todolists.forEach((tl: any) => {
                 stateCopy[tl.id] = []
             })
             return stateCopy;

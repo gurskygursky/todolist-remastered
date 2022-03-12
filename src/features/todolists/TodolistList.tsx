@@ -45,7 +45,7 @@ export const TodolistList = () => {
         dispatch(removeTodolistTC(todolistID));
     }, [dispatch]);
     const tasksFilter = useCallback((todolistID: string, tasksFilter: TasksFilterValueType) => {
-        dispatch(changeTodolistFilterAC(todolistID, tasksFilter));
+        dispatch(changeTodolistFilterAC({todolistID, changeTaskStatus: tasksFilter}));
     }, [dispatch]);
     const taskStatusIsChecked = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
         dispatch(updateTaskTC(todolistID, taskID, {status}));
