@@ -19,25 +19,37 @@ const tasksSlice = createSlice({
     initialState: initialState,
     reducers: {
         removeTaskAC: (state, action: PayloadAction<{ todolistID: string, taskID: string }>) => {
-            const stateCopy = {...state};
-            const tasks = state[action.payload.taskID];
-            stateCopy[action.payload.todolistID] = tasks.filter(task => task.id !== action.payload.taskID);
-            return stateCopy;
+            const tasks = state[action.payload.todolistID];
+            const index = tasks.findIndex((task) => task.id === action.payload.taskID)
+            if (index > -1) {
+                tasks.splice(index, 1)
+            }
+            // const stateCopy = {...state};
+            // const tasks = state[action.payload.taskID];
+            // stateCopy[action.payload.todolistID] = tasks.filter(task => task.id !== action.payload.taskID);
+            // return stateCopy;
         },
         addTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
-            const stateCopy = {...state};
-            const task = action.payload.task;
-            stateCopy[task.todoListId] = [task, ...state[task.todoListId]];
-            return stateCopy;
+            state[action.payload.task.todoListId].unshift(action.payload.task)
+            // const stateCopy = {...state};
+            // const task = action.payload.task;
+            // stateCopy[task.todoListId] = [task, ...state[task.todoListId]];
+            // return stateCopy;
         },
         updateTaskAC: (state, action: PayloadAction<{ todolistID: string, taskID: string, domainModel: UpdateTaskDomainType }>) => {
-            return {
-                ...state,
-                [action.payload.todolistID]: state[action.payload.todolistID]
-                    .map(task => task.id === action.payload.taskID
-                        ? {...task, ...action.payload.domainModel}
-                        : task)
+            const tasks = state[action.payload.todolistID];
+            const index = tasks.findIndex((task) => task.id === action.payload.taskID)
+            if (index > -1) {
+                tasks[index] = {...tasks[index], ...action.payload.domainModel}
+                // tasks.splice(index, 1)
             }
+            // return {
+            //     ...state,
+            //     [action.payload.todolistID]: state[action.payload.todolistID]
+            //         .map(task => task.id === action.payload.taskID
+            //             ? {...task, ...action.payload.domainModel}
+            //             : task)
+            // }
         },
         setTasksAC: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistID: string }>) => {
             const stateCopy = {...state}
@@ -45,33 +57,50 @@ const tasksSlice = createSlice({
             return stateCopy
         },
     },
-    extraReducers: {
-        [addTodolistAC.type]:
-            (state, action: PayloadAction<{ todolist: TodolistType }>) => {
-                const stateCopy = {...state};
-                stateCopy[action.payload.todolist.id] = [];
-                return stateCopy;
-            },
-        [removeTodolistAC.type]:
-            (state, action: PayloadAction<{ todolistID: string }>) => {
-                const stateCopy = {...state};
-                delete stateCopy[action.payload.todolistID];
-                return stateCopy;
-            },
-        [setTodolistsAC.type]:
-            (state, action: PayloadAction<{ todolists: Array<TodolistType> }>) => {
-                const stateCopy = {...state}
-                action.payload.todolists.forEach((tl: any) => {
-                    stateCopy[tl.id] = []
-                })
-                return stateCopy;
-            },
-        [logoutClearDataAC.type]:
-            (state, action: PayloadAction) => {
-                return {}
-            }
+    extraReducers: (builder) => {
+        builder.addCase(addTodolistAC, (state, action: PayloadAction<{ todolist: TodolistType }>) => {
+            state[action.payload.todolist.id] = [];
+        });
+        builder.addCase(removeTodolistAC, (state, action: PayloadAction<{ todolistID: string }>) => {
+            debugger
+            delete state[action.payload.todolistID];
+        });
+        builder.addCase(setTodolistsAC, (state, action: PayloadAction<{ todolists: Array<TodolistType> }>) => {
+            action.payload.todolists.forEach((tl: any) => {
+                state[tl.id] = []
+            })
+        });
+        builder.addCase(logoutClearDataAC, (state, action) => {
+            return {}
+        });
     },
 });
+        // extraReducers: {
+        //     [addTodolistAC.type]:
+        //         (state, action: PayloadAction<{ todolist: TodolistType }>) => {
+        //             const stateCopy = {...state};
+        //             stateCopy[action.payload.todolist.id] = [];
+        //             return stateCopy;
+        //         },
+        //     [removeTodolistAC.type]:
+        //         (state, action: PayloadAction<{ todolistID: string }>) => {
+        //             const stateCopy = {...state};
+        //             delete stateCopy[action.payload.todolistID];
+        //             return stateCopy;
+        //         },
+        //     [setTodolistsAC.type]:
+        //         (state, action: PayloadAction<{ todolists: Array<TodolistType> }>) => {
+        //             const stateCopy = {...state}
+        //             action.payload.todolists.forEach((tl: any) => {
+        //                 stateCopy[tl.id] = []
+        //             })
+        //             return stateCopy;
+        //         },
+        //     [logoutClearDataAC.type]:
+        //         (state, action: PayloadAction) => {
+        //             return {}
+        //         }
+        // },
 export const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC} = tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;
 
@@ -143,7 +172,7 @@ export const addTaskTC = (todolistID: string, title: string) => {
 export const updateTaskTC = (todolistID: string, taskID: string, domainModel: UpdateTaskDomainType) => {
     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType | ChangeTodolistEntityStatusActionType>, getState: () => AppRootStateType) => {
         const state = getState();
-        const task = state.tasks[todolistID].find(t => t.id === taskID);
+        const task = state.tasks[todolistID].find((t: any) => t.id === taskID);
         if (!task) {
             console.warn('Error');
             return
