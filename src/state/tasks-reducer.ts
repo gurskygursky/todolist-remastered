@@ -52,9 +52,10 @@ const tasksSlice = createSlice({
             // }
         },
         setTasksAC: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistID: string }>) => {
-            const stateCopy = {...state}
-            stateCopy[action.payload.todolistID] = action.payload.tasks
-            return stateCopy
+            state[action.payload.todolistID] = action.payload.tasks;
+            // const stateCopy = {...state}
+            // stateCopy[action.payload.todolistID] = action.payload.tasks
+            // return stateCopy
         },
     },
     extraReducers: (builder) => {
@@ -62,7 +63,6 @@ const tasksSlice = createSlice({
             state[action.payload.todolist.id] = [];
         });
         builder.addCase(removeTodolistAC, (state, action: PayloadAction<{ todolistID: string }>) => {
-            debugger
             delete state[action.payload.todolistID];
         });
         builder.addCase(setTodolistsAC, (state, action: PayloadAction<{ todolists: Array<TodolistType> }>) => {

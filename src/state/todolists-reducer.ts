@@ -17,28 +17,38 @@ const todolistsSlice = createSlice({
     initialState: initialState,
     reducers: {
         removeTodolistAC: (state, action: PayloadAction<{ todolistID: string }>) => {
-            state.filter(tl => tl.id !== action.payload.todolistID);
+            const index = state.findIndex((td) => td.id === action.payload.todolistID)
+            if (index > -1) {
+                state.splice(index, 1)
+            }
+            // state.filter(tl => tl.id !== action.payload.todolistID);
         },
         addTodolistAC: (state, action: PayloadAction<{ todolist: TodolistType }>) => {
             state.unshift({...action.payload.todolist, tasksFilterValue: "all", appStatus: "idle"})
         },
         changeTodolistTitleAC: (state, action: PayloadAction<{ todolistID: string, newTodolistTitle: string }>) => {
-            state.map(td => td.id === action.payload.todolistID ? {...td, title: action.payload.newTodolistTitle} : td)
+            const index = state.findIndex((td) => td.id === action.payload.todolistID);
+            state[index].title = action.payload.newTodolistTitle;
+            // state.map(td => td.id === action.payload.todolistID ? {...td, title: action.payload.newTodolistTitle} : td)
         },
-        changeTodolistFilterAC: (state, action: PayloadAction<{ todolistID: string, changeTaskStatus: TasksFilterValueType }>) => {
-            state.map(td => td.id === action.payload.changeTaskStatus ? {
-                ...td,
-                tasksFilterValue: action.payload.changeTaskStatus
-            } : td)
+        changeTodolistFilterAC: (state, action: PayloadAction<{ todolistID: string, changeTaskStatus: TasksFilterValueType}>) => {
+            const index = state.findIndex((td) => td.id === action.payload.todolistID);
+            state[index].tasksFilterValue = action.payload.changeTaskStatus;
+            // state.map(td => td.id === action.payload.changeTaskStatus ? {
+            //     ...td,
+            //     tasksFilterValue: action.payload.changeTaskStatus
+            // } : td)
         },
         changeTodolistEntityStatusAC: (state, action: PayloadAction<{ todolistID: string, appStatus: RequestStatusType }>) => {
-            state.map(td => td.id === action.payload.todolistID ? {...td, appStatus: action.payload.appStatus} : td)
+            const index = state.findIndex((td) => td.id === action.payload.todolistID);
+            state[index].appStatus = action.payload.appStatus;
+            // state.map(td => td.id === action.payload.todolistID ? {...td, appStatus: action.payload.appStatus} : td)
         },
         setTodolistsAC: (state, action: PayloadAction<{ todolists: Array<TodolistType> }>) => {
-           return action.payload.todolists.map(tl => ({
-                ...tl,
-                todolistTitle: tl.title,
-                id: tl.id,
+           return action.payload.todolists.map(td => ({
+                ...td,
+                todolistTitle: td.title,
+                id: td.id,
                 tasksFilterValue: "all",
                 appStatus: 'idle',
             }))
