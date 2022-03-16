@@ -1,4 +1,4 @@
-import {Dispatch} from "redux";
+import {Action, Dispatch} from "redux";
 import {TasksFilterValueType, todolistAPI, TodolistType} from "../api/todolists-api";
 import {
     RequestStatusType,
@@ -8,7 +8,8 @@ import {
 } from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import {getTasksTC} from "./tasks-reducer";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction, ThunkAction, ThunkDispatch} from "@reduxjs/toolkit";
+import {AppRootStateType} from "./store";
 
 const initialState: Array<TodolistDomainType> = [];
 
@@ -96,9 +97,9 @@ export const todolistsReducer = todolistsSlice.reducer;
 // export const logoutClearDataAC = () => ({type: 'LOGOUT_CLEAR_DATA'} as const)
 
 //thunks
-export const getTodolistsTC = () => {
+export const getTodolistsTC = (): ThunkAction<void, AppRootStateType, unknown, SetAppStatusActionType | SetTodolistsActionType > => {
     // return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppStatusActionType>) => {
-    return (dispatch: any) => {
+    return (dispatch) => {
         dispatch(setAppStatusAC({appStatus: 'loading'}));
         todolistAPI.getTodolists()
             .then((res) => {
