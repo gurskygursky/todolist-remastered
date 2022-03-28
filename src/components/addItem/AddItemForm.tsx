@@ -58,5 +58,5 @@ export const AddItemForm = React.memo((props: AddItemFormType) => {
                 <AddBox/>
             </IconButton>
         </div>
-    )
+    );
 })

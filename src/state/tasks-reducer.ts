@@ -24,38 +24,19 @@ const tasksSlice = createSlice({
             if (index > -1) {
                 tasks.splice(index, 1)
             }
-            // const stateCopy = {...state};
-            // const tasks = state[action.payload.taskID];
-            // stateCopy[action.payload.todolistID] = tasks.filter(task => task.id !== action.payload.taskID);
-            // return stateCopy;
         },
         addTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
             state[action.payload.task.todoListId].unshift(action.payload.task)
-            // const stateCopy = {...state};
-            // const task = action.payload.task;
-            // stateCopy[task.todoListId] = [task, ...state[task.todoListId]];
-            // return stateCopy;
         },
         updateTaskAC: (state, action: PayloadAction<{ todolistID: string, taskID: string, domainModel: UpdateTaskDomainType }>) => {
             const tasks = state[action.payload.todolistID];
             const index = tasks.findIndex((task) => task.id === action.payload.taskID)
             if (index > -1) {
                 tasks[index] = {...tasks[index], ...action.payload.domainModel}
-                // tasks.splice(index, 1)
             }
-            // return {
-            //     ...state,
-            //     [action.payload.todolistID]: state[action.payload.todolistID]
-            //         .map(task => task.id === action.payload.taskID
-            //             ? {...task, ...action.payload.domainModel}
-            //             : task)
-            // }
         },
         setTasksAC: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistID: string }>) => {
             state[action.payload.todolistID] = action.payload.tasks;
-            // const stateCopy = {...state}
-            // stateCopy[action.payload.todolistID] = action.payload.tasks
-            // return stateCopy
         },
     },
     extraReducers: (builder) => {
@@ -75,56 +56,9 @@ const tasksSlice = createSlice({
         });
     },
 });
-        // extraReducers: {
-        //     [addTodolistAC.type]:
-        //         (state, action: PayloadAction<{ todolist: TodolistType }>) => {
-        //             const stateCopy = {...state};
-        //             stateCopy[action.payload.todolist.id] = [];
-        //             return stateCopy;
-        //         },
-        //     [removeTodolistAC.type]:
-        //         (state, action: PayloadAction<{ todolistID: string }>) => {
-        //             const stateCopy = {...state};
-        //             delete stateCopy[action.payload.todolistID];
-        //             return stateCopy;
-        //         },
-        //     [setTodolistsAC.type]:
-        //         (state, action: PayloadAction<{ todolists: Array<TodolistType> }>) => {
-        //             const stateCopy = {...state}
-        //             action.payload.todolists.forEach((tl: any) => {
-        //                 stateCopy[tl.id] = []
-        //             })
-        //             return stateCopy;
-        //         },
-        //     [logoutClearDataAC.type]:
-        //         (state, action: PayloadAction) => {
-        //             return {}
-        //         }
-        // },
+
 export const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC} = tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;
-
-//actions
-// export const removeTaskAC = (todolistID: string, taskID: string) => ({
-//     type: 'REMOVE_TASK',
-//     id: todolistID,
-//     taskID,
-// } as const)
-// export const addTaskAC = (task: TaskType) => ({
-//     type: 'ADD_TASK',
-//     task,
-// } as const)
-// export const updateTaskAC = (todolistID: string, taskID: string, domainModel: UpdateTaskDomainType) => ({
-//     type: 'UPDATE_TASK',
-//     todolistID,
-//     taskID,
-//     domainModel,
-// } as const)
-// export const setTasksAC = (tasks: Array<TaskType>, todolistID: string) => ({
-//     type: 'SET_TASKS',
-//     tasks,
-//     todolistID
-// } as const)
 
 //thunks
 export const getTasksTC = (todolistId: string) => {
@@ -203,58 +137,6 @@ export const updateTaskTC = (todolistID: string, taskID: string, domainModel: Up
     }
 }
 
-// export const tasksReducer = (state: TasksStateType = initialState, action: any): TasksStateType => {
-//     switch (action.type) {
-//         case "REMOVE_TASK": {
-//             const stateCopy = {...state};
-//             const tasks = state[action.id];
-//             stateCopy[action.id] = tasks.filter(task => task.id !== action.taskID);
-//             return stateCopy;
-//         }
-//         case "ADD_TASK": {
-//             const stateCopy = {...state};
-//             const task = action.task;
-//             stateCopy[task.todoListId] = [task, ...state[task.todoListId]];
-//             return stateCopy;
-//         }
-//         case "UPDATE_TASK": {
-//             return {
-//                 ...state,
-//                 [action.todolistID]: state[action.todolistID]
-//                     .map(task => task.id === action.taskID
-//                         ? {...task, ...action.domainModel}
-//                         : task)
-//             }
-//         }
-//         case addTodolistAC.type: {
-//             const stateCopy = {...state};
-//             stateCopy[action.payload.todolist.id] = [];
-//             return stateCopy;
-//         }
-//         case removeTodolistAC.type: {
-//             const stateCopy = {...state};
-//             delete stateCopy[action.payload.todolistID];
-//             return stateCopy;
-//         }
-//         case setTodolistsAC.type: {
-//             const stateCopy = {...state}
-//             action.payload.todolists.forEach((tl: any) => {
-//                 stateCopy[tl.id] = []
-//             })
-//             return stateCopy;
-//         }
-//         case "SET_TASKS": {
-//             const stateCopy = {...state}
-//             stateCopy[action.todolistID] = action.tasks
-//             return stateCopy
-//         }
-//         case "LOGOUT_CLEAR_DATA":
-//             return {}
-//         default:
-//             return state;
-//     }
-// }
-
 //types
 export type UpdateTaskDomainType = {
     title?: string
@@ -268,8 +150,5 @@ type ActionsType =
     | AddTodolistActionType
     | RemoveTodolistActionType
     | SetTodolistsActionType
-    // | ReturnType<typeof setTasksAC>
     | ReturnType<typeof addTaskAC>
-    // | ReturnType<typeof removeTaskAC>
-    // | ReturnType<typeof updateTaskAC>
     | LogoutClearDataActionType;

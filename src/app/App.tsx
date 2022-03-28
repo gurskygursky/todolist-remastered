@@ -10,8 +10,6 @@ import {initializeAppTC} from "../state/app-reducer";
 import {AppRootStateType} from "../state/store";
 
 export function App() {
-    console.log("App is called");
-
     const dispatch = useDispatch();
     const isInitialized = useSelector<AppRootStateType>(state => state.app.isInitialized);
 

@@ -23,7 +23,6 @@ type FormikErrorType = {
 }
 
 export const Login = () => {
-
     const dispatch = useDispatch();
     const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
@@ -54,7 +53,6 @@ export const Login = () => {
         },
         onSubmit: values => {
             dispatch(loginTC(values));
-            // alert(JSON.stringify(values));
             formik.resetForm();
         },
     })

@@ -8,7 +8,6 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 const initialState = {
     isLoggedIn: false
 }
-// type InitialStateType = typeof initialState
 
 const todolistAuthSlice = createSlice({
     name: 'auth',
@@ -22,18 +21,6 @@ const todolistAuthSlice = createSlice({
 
 export const authReducer = todolistAuthSlice.reducer;
 export const {setIsLoggedInAC} = todolistAuthSlice.actions;
-
-// export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-//     switch (action.type) {
-//         case 'LOGIN/SET_IS_LOGGED_IN':
-//             return {...state, isLoggedIn: action.value}
-//         default:
-//             return state
-//     }
-// }
-// actions
-// export const setIsLoggedInAC = (value: boolean) =>
-//     ({type: 'LOGIN/SET_IS_LOGGED_IN', value} as const)
 
 // thunks
 export const loginTC = (authData: LoginParamsType) => {

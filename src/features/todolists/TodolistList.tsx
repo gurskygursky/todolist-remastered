@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect} from 'react';
-import '../../app/App.css'
 import {TasksStateType, Todolist} from "./todolist/Todolist";
 import {AddItemForm} from "../../components/addItem/AddItemForm";
 import {
@@ -19,7 +18,6 @@ import {ErrorSnackbar} from "../../components/error/ErrorSnackbar";
 import {Navigate} from 'react-router-dom';
 
 export const TodolistList = () => {
-    console.log("TodolistList is called");
 
     useEffect(() => {
         dispatch(getTodolistsTC());

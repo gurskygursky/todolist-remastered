@@ -12,8 +12,6 @@ export const GetTodolists = () => {
             .then((response) => {
                 setState(response.data)
             })
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
     }, []);
     return <div> {JSON.stringify(state)}</div>
 }
@@ -59,8 +57,6 @@ export const GetTasks = () => {
             .then((response) => {
                 setState(response.data)
             })
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
     }, []);
     return <div> {JSON.stringify(state)}</div>
 }
@@ -73,8 +69,6 @@ export const CreateTask = () => {
             .then((response) => {
                 setState(response.data)
             })
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
     }, []);
     return <div> {JSON.stringify(state)}</div>
 }
@@ -95,8 +89,6 @@ export const UpdateTaskTitle = () => {
             .then((response) => {
                 setState(response.data)
             })
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
     }, []);
     return <div> {JSON.stringify(state)}</div>
 }
@@ -109,8 +101,6 @@ export const DeleteTask = () => {
             .then((response) => {
                 setState(response.data)
             })
-        // здесь мы будем делать запрос и ответ закидывать в стейт.
-        // который в виде строки будем отображать в div-ке
     }, []);
     return <div> {JSON.stringify(state)}</div>
 }
