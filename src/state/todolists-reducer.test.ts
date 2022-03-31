@@ -1,13 +1,14 @@
 // export {};
 import {v1} from 'uuid';
 import {
-    addTodolistAC,
+    addTodolistAC, changeTodolistEntityStatusAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC, TodolistDomainType,
+    removeTodolistAC, setTodolistsAC, TodolistDomainType,
     todolistsReducer
 } from './todolists-reducer';
 import {TasksFilterValueType, TaskStatuses, TodolistType} from "../api/todolists-api";
+import {RequestStatusType} from "./app-reducer";
 
 let todolistID1: string;
 let todolistID2: string;
@@ -118,4 +119,21 @@ test('correct filter of todolist should be changed', () => {
     expect(endState[1].tasksFilterValue).toBe(newFilter);
     expect(endState[1].title).toBe("What to buy");
     expect(endState[0].title).toBe("What to learn");
+});
+test('todolists should be added', () => {
+
+    const action = setTodolistsAC({todolists: startState});
+
+    const endState = todolistsReducer([], action);
+
+    expect(endState.length).toBe(2);
+});
+test('correct appStatus of todolist should be changed', () => {
+
+    const action = changeTodolistEntityStatusAC({todolistID: todolistID1, appStatus: 'failed'});
+
+    const endState = todolistsReducer(startState, action);
+
+    expect(endState[0].appStatus).toBe('failed');
+    expect(endState[1].appStatus).toBe('idle');
 });
