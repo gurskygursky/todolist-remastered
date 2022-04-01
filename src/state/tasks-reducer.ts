@@ -11,20 +11,39 @@ import {Dispatch} from "redux";
 import {AppRootStateType} from "./store";
 import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: TasksStateType = {};
+
+export const getTasksTC = createAsyncThunk('tasks/getTasks', async (todolistId: string, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({appStatus: 'loading'}))
+    return todolistAPI.getTasks(todolistId)
+        .then((res) => {
+            const tasks = res.data.items
+            thunkAPI.dispatch(setAppStatusAC({appStatus: 'succeeded'}));
+            return {tasks, todolistId}
+        });
+});
+export const removeTaskTC = createAsyncThunk('tasks/deleteTask', async (param: { todolistId: string, taskId: string }, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatusAC({appStatus: 'loading'}))
+    todolistAPI.deleteTask(param.todolistId, param.taskId)
+        .then(() => {
+            thunkAPI.dispatch(setAppStatusAC({appStatus: 'succeeded'}));
+            return {todolistID: param.todolistId, taskID: param.taskId};
+        });
+});
+
 const tasksSlice = createSlice({
     name: 'tasks',
     initialState: initialState,
     reducers: {
-        removeTaskAC: (state, action: PayloadAction<{ todolistID: string, taskID: string }>) => {
-            const tasks = state[action.payload.todolistID];
-            const index = tasks.findIndex((task) => task.id === action.payload.taskID)
-            if (index > -1) {
-                tasks.splice(index, 1)
-            }
-        },
+        // removeTaskAC: (state, action: PayloadAction<{ todolistID: string, taskID: string }>) => {
+        //     const tasks = state[action.payload.todolistID];
+        //     const index = tasks.findIndex((task) => task.id === action.payload.taskID)
+        //     if (index > -1) {
+        //         tasks.splice(index, 1)
+        //     }
+        // },
         addTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
             state[action.payload.task.todoListId].unshift(action.payload.task)
         },
@@ -35,9 +54,9 @@ const tasksSlice = createSlice({
                 tasks[index] = {...tasks[index], ...action.payload.domainModel}
             }
         },
-        setTasksAC: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistID: string }>) => {
-            state[action.payload.todolistID] = action.payload.tasks;
-        },
+        // setTasksAC: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistID: string }>) => {
+        //     state[action.payload.todolistID] = action.payload.tasks;
+        // },
     },
     extraReducers: (builder) => {
         builder.addCase(addTodolistAC, (state, action: PayloadAction<{ todolist: TodolistType }>) => {
@@ -51,37 +70,47 @@ const tasksSlice = createSlice({
                 state[tl.id] = []
             })
         });
-        builder.addCase(logoutClearDataAC, (state, action) => {
+        builder.addCase(logoutClearDataAC, () => {
             return {}
+        });
+        builder.addCase(getTasksTC.fulfilled, (state, action) => {
+            state[action.payload.todolistId] = action.payload.tasks;
+        });
+        builder.addCase(removeTaskTC.fulfilled, (state, action) => {
+            const tasks = state[action.meta.arg.todolistId];
+            const index = tasks.findIndex((task) => task.id === action.meta.arg.taskId)
+            if (index > -1) {
+                tasks.splice(index, 1)
+            }
         });
     },
 });
 
-export const {removeTaskAC, addTaskAC, updateTaskAC, setTasksAC} = tasksSlice.actions;
+export const {addTaskAC, updateTaskAC} = tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;
 
 //thunks
-export const getTasksTC = (todolistId: string) => {
-    return (dispatch: Dispatch<ActionsType | SetAppStatusActionType>,) => {
-        dispatch(setAppStatusAC({appStatus: 'loading'}))
-        todolistAPI.getTasks(todolistId)
-            .then((res) => {
-                const tasks = res.data.items
-                dispatch(setTasksAC({tasks, todolistID: todolistId}))
-                dispatch(setAppStatusAC({appStatus: 'succeeded'}))
-            })
-    }
-}
-export const removeTaskTC = (todolistId: string, taskId: string) => {
-    return (dispatch: Dispatch<ActionsType | SetAppStatusActionType>) => {
-        dispatch(setAppStatusAC({appStatus: 'loading'}))
-        todolistAPI.deleteTask(todolistId, taskId)
-            .then(() => {
-                dispatch(removeTaskAC({todolistID: todolistId, taskID: taskId}))
-                dispatch(setAppStatusAC({appStatus: 'succeeded'}))
-            })
-    }
-}
+// export const getTasksTC_ = (todolistId: string) => {
+//     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType>,) => {
+//         dispatch(setAppStatusAC({appStatus: 'loading'}))
+//         todolistAPI.getTasks(todolistId)
+//             .then((res) => {
+//                 const tasks = res.data.items
+//                 dispatch(setTasksAC({tasks, todolistID: todolistId}))
+//                 dispatch(setAppStatusAC({appStatus: 'succeeded'}))
+//             })
+//     }
+// }
+// export const removeTaskTC_ = (todolistId: string, taskId: string) => {
+//     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType>) => {
+//         dispatch(setAppStatusAC({appStatus: 'loading'}))
+//         todolistAPI.deleteTask(todolistId, taskId)
+//             .then(() => {
+//                 dispatch(removeTaskAC({todolistID: todolistId, taskID: taskId}))
+//                 dispatch(setAppStatusAC({appStatus: 'succeeded'}))
+//             })
+//     }
+// }
 export const addTaskTC = (todolistID: string, title: string) => {
     return (dispatch: Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType | ChangeTodolistEntityStatusActionType>) => {
         dispatch(setAppStatusAC({appStatus: 'loading'}))

@@ -35,8 +35,8 @@ export const TodolistList = () => {
     const addTodolist = useCallback((todolistTitle: string) => {
         dispatch(addTodolistTC(todolistTitle));
     }, [dispatch]);
-    const removeTask = useCallback((todolistID: string, taskID: string) => {
-        const thunk = removeTaskTC(todolistID, taskID);
+    const removeTask = useCallback((todolistId: string, taskId: string) => {
+        const thunk = removeTaskTC({todolistId, taskId});
         dispatch(thunk);
     }, [dispatch]);
     const removeTodolist = useCallback((todolistID: string) => {
